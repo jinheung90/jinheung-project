@@ -1,0 +1,46 @@
+
+buildscript {
+    ext {
+        springBootVersion = '2.4.3'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
+        classpath 'mysql:mysql-connector-java:8.0.23'
+    }
+
+
+}
+plugins {
+    id "org.flywaydb.flyway" version "5.2.4" apply false //get it in but donot apply it for root project
+}
+
+allprojects {
+    group 'com.jinheung'
+    version '1.0.1'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = 11
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://repo.spring.io/snapshot' }
+    }
+
+}
+
+project(":jinheung-api-gateway") {
+    dependencies {
+
+    }
+
+}

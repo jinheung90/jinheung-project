@@ -1,0 +1,4 @@
+
+rootProject.name = 'jinheung'
+include 'jinheung-api-gateway'
+
