@@ -1,9 +1,7 @@
 package com.jinheung.project.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.windfally.audivice.errorHandling.ErrorResponse;
-import com.windfally.audivice.errorHandling.errorEnums.GlobalErrorCode;
-import com.windfally.audivice.errorHandling.errorEnums.IErrorCode;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,8 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component

@@ -1,6 +1,6 @@
 package com.jinheung.project.errorHandling.errorEnums;
 
-import com.jinheung.project.errorHandling.errorEnums.errorEnums.IErrorCode;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

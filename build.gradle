@@ -1,21 +1,20 @@
-
 buildscript {
+
     ext {
-        springBootVersion = '2.4.3'
+        springBootVersion = '2.5.9'
     }
-    repositories {
-        mavenCentral()
-    }
+
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
-        classpath 'mysql:mysql-connector-java:8.0.23'
     }
-
-
 }
+
 plugins {
-    id "org.flywaydb.flyway" version "5.2.4" apply false //get it in but donot apply it for root project
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+ext {
+    set('springCloudVersion', "2020.0.5")
 }
 
 allprojects {
@@ -31,16 +30,46 @@ subprojects {
     sourceCompatibility = 11
 
     repositories {
-        mavenCentral()
-        maven { url 'https://repo.spring.io/milestone' }
-        maven { url 'https://repo.spring.io/snapshot' }
+        jcenter()
+        maven { url 'https://repo.spring.io/release/' }
+        maven { url "https://repo.spring.io/libs-snapshot-local" }
+        maven { url "https://repo.spring.io/libs-milestone-local" }
+        maven { url "https://repo.spring.io/libs-release-local" }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
     }
 
 }
-
+//spring security and oauth2 cannot get from spring boot reference
+//https://spring.io/projects/spring-cloud#overview
 project(":jinheung-api-gateway") {
     dependencies {
-
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
+        implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-oauth2', version: '2.2.5.RELEASE'
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-security', version: '2.2.5.RELEASE'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     }
+}
 
+project(":jinheung-eureka-server") {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+    }
+}
+
+project(":jinheung-user-profile") {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+        implementation "org.springframework.security:spring-security-oauth2-resource-server"
+        "org.springframework.security:spring-security-oauth2-jose"
+    }
 }

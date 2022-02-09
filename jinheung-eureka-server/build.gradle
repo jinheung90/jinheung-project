@@ -1,0 +1,58 @@
+plugins {
+//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'java-library'
+    id 'java-test-fixtures'
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.18'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final"
+//    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.5.2'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.0'
+    // junit4 의존성 제거
+    implementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude module: 'junit'
+    }
+    // 모키토
+    testImplementation "org.mockito:mockito-core:2.24.0"
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "org.mockito", module: "mockito-all"
+    }
+
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+test { // 통합 제외 (유닛)
+    useJUnitPlatform() {
+        excludeTags("integration")
+    }
+
+    testLogging {
+        showStandardStreams = false  // Set true, when you debug failed test
+    }
+}
+
+task integrationTest(type: Test, group: 'verification') {
+    useJUnitPlatform() {
+        includeTags("integration")
+    }
+
+    testLogging {
+        showStandardStreams = false  // Set true, when you debug failed test
+    }
+}
+
+jar {
+    enabled = true
+}

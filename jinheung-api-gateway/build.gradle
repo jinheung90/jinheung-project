@@ -4,19 +4,21 @@ plugins {
     id 'java-test-fixtures'
 //    id "org.flywaydb.flyway" version "8.0.4"
 //    id "org.flywaydb.flyway" version "5.2.4"
+//    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
+
+
 ext {
     springCloudAwsVersion = '2.2.6.RELEASE'
 }
 
+
 dependencies {
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '2.5.3'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-gateway', version: '3.0.1'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.1.RELEASE'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-security', version: '2.2.5.RELEASE'
+
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'io.jsonwebtoken:jjwt-api:0.11.2'
     compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.0'
@@ -29,14 +31,14 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final"
 
 //    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    testImplementation('org.springframework.boot:spring-boot-starter-test:2.6.3') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.4"
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
     }
 }
 
@@ -50,8 +52,7 @@ test { // 통합 제외 (유닛)
 
 task integrationTest(type: Test, group: 'verification') { // 통합만
     useJUnitPlatform {
-        includeTags("integration") // 'com.windfally.wolfplanet.IntegrationTestBase' // 통합만
-        //include('com.windfally.wolfplanet.IntegrationTestBase')
+        includeTags("integration")
     }
 
     testLogging {

@@ -21,6 +21,7 @@ public class LoggingGlobalFilterFactory extends AbstractGatewayFilterFactory<Log
 
     @Override
     public GatewayFilter apply(Config config) {
+
         return null;
     }
 

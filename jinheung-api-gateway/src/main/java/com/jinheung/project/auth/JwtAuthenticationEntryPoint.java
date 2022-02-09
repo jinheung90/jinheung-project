@@ -33,8 +33,6 @@ public class JwtAuthenticationEntryPoint implements ServerAuthenticationEntryPoi
     public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException ex) {
         return sendErrorMessage(exchange.getResponse());
     }
-//
-
 
     private Mono<Void> sendErrorMessage(ServerHttpResponse res) {
         res.setStatusCode(HttpStatus.resolve(GlobalErrorCode.NOT_VALID_TOKEN.getStatus())); // 인가 부족 401
