@@ -1,5 +1,6 @@
 package com.jinheung.project.domain.user.controller;
 
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 
 
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/resource")
 public class UserController {
-//    @GetMapping
-//    public ResponseEntity<String> getResource(@AuthenticationPrincipal Jwt jwt) {
-//        return ResponseEntity.ok("test");
-//    }
+    @GetMapping
+    public ResponseEntity<String> getResource(@AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.ok("test");
+    }
 }

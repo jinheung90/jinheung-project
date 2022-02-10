@@ -60,9 +60,6 @@ public class SecurityConfig  {
 
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
-//        configuration.addAllowedOrigin("");
-        //configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

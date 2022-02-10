@@ -4,15 +4,13 @@ spring:
   cloud:
     gateway:
       routes:
-      - id:
+      - id: user_profile
         uri: http://localhost:8082
         predicates:
          - Path=/user
-        filters:
-          - TokenRelay=
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-
+        - TokenRelay=/user
 server:
   port: 8081
 eureka:
