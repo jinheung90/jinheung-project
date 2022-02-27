@@ -1,5 +1,6 @@
 package com.jinheung.project.gateway.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinheung.common.consts.AuthHeaderNames;
 import com.jinheung.project.auth.TokenProvider;
 
@@ -7,6 +8,7 @@ import com.jinheung.project.auth.TokenProvider;
 import com.jinheung.project.auth.dto.ParsedUserDataByJwtToken;
 import com.jinheung.project.auth.redis.service.RefreshTokenService;
 import com.jinheung.project.config.RedisConfig;
+import com.jinheung.project.gateway.CustomLog;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -30,13 +32,15 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
     private final TokenProvider tokenProvider;
     private static final String REFRESH_REDIS_KEY = "refresh-redis-key";
     private static final String REFRESH_TOKEN_HEADER_NAME = "refresh-token";
+    private final ObjectMapper objectMapper;
 
     public AuthFilterFactory(TokenProvider tokenProvider,
-                             RefreshTokenService refreshTokenService) {
+                             RefreshTokenService refreshTokenService, ObjectMapper objectMapper) {
         super(AuthFilterFactory.Config.class);
         this.tokenProvider = tokenProvider;
 //        this.redisTemplate = redisTemplate;
         this.refreshTokenService = refreshTokenService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -57,6 +61,18 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
                     request.mutate().header(AuthHeaderNames.USER_ID, tokenData.getUserId().toString());
                     request.mutate().header(AuthHeaderNames.USER_AUTHORITIES,
                         tokenData.getAuthorities().toArray(String[]::new));
+
+//                    log.info(objectMapper.writeValueAsString(
+//                        new CustomLog(
+//                            tokenData.getUserId().toString(),
+//                            "request headewr",
+//                            request.getMethod().toString(),
+//                            request.getQueryParams().toString(),
+//                            request.getPath().toString(),
+//                            request.getRemoteAddress().getHostName(),
+//                            ""
+//                        )
+//                    ));
                 }
             } else {
                 List<String> refreshHeaderVal = headers.get(REFRESH_TOKEN_HEADER_NAME);

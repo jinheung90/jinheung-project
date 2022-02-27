@@ -7,8 +7,12 @@
    redis localhost:6379
    spring server port : 8081
   
-   reactive logging0
+   reactive logging
    https://cloud.spring.io/spring-cloud-gateway/multi/multi__reactor_netty_access_logs.html
+    
+   main function
+   gateway, authorization, logging
+    
 ```
 
 ### jinheung-euraka-server
