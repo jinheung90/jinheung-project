@@ -10,6 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableFeignClients
 @EnableEurekaClient
+
 public class JinheungApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JinheungApplication.class, args);

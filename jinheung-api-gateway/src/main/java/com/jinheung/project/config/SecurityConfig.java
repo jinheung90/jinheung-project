@@ -34,17 +34,16 @@ public class SecurityConfig  {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
             .httpBasic().disable()
-            .csrf().disable()
-            .exceptionHandling()
-            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-            .accessDeniedHandler(jwtAccessDeniedHandler)
-            .and()
-            .authorizeExchange()
-            .pathMatchers("/search/**").permitAll()
-            .pathMatchers("/user/**").permitAll()
-            .and().cors().disable();
+            .csrf().disable();
+//            .exceptionHandling()
+//            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//            .accessDeniedHandler(jwtAccessDeniedHandler)
+//            .and()
+//            .authorizeExchange()
+//            .pathMatchers("/search/**").permitAll()
+//            .pathMatchers("/user/**").permitAll()
 
-
+//            .and().cors().disable();
             http.cors().configurationSource(this.corsConfigurationSource());
         return http.build();
     }

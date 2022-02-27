@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
+
     @Value("${spring.security.user.name}")
     private String name;
     @Value("${spring.security.user.password}")

@@ -61,4 +61,20 @@ public class TokenProvider implements InitializingBean {
         }
         return null;
     }
+
+    public String createJwtAccessTokenByUser(String user) {
+//
+//        String authorities = user.getAuthorities().stream()
+//            .map(Authority::getAuthority)
+//            .collect(Collectors.joining(","));
+//
+//        Date validity =  new Date(new Date().getTime() + mAccessTokenExpiration * 1000);
+//        return Jwts.builder()
+//            .setSubject(user.getId() + "")
+//            .claim(AUTHORITIES_KEY, authorities)
+//            .signWith(key, SignatureAlgorithm.HS512)
+//            .setExpiration(validity)
+//            .compact();
+        return user;
+    }
 }

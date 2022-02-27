@@ -4,17 +4,19 @@ spring:
   cloud:
     gateway:
       routes:
-      - id: user_profile
+      - id:
         uri: http://localhost:8082
         predicates:
          - Path=/user
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-        - TokenRelay=/user
+        - AuthFilterFactory=
 server:
   port: 8081
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       default-zone: http://localhost:8761/eureka/
 token:
