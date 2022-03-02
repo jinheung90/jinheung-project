@@ -57,14 +57,5 @@ public class ExceptWithErrorCodeAdvice {
             put("CODE",  "G001");
         }}, HttpStatus.BAD_REQUEST);
     }
-    //멀티 파트 파일 관련해서
-    @InitBinder
-    public void binder(WebDataBinder binder) throws Exception {
-        binder.registerCustomEditor(MultipartFile.class, new PropertyEditorSupport() {
-            @Override
-            public void setAsText(String text) {
-                setValue(null);
-            }
-        });
-    }
+
 }

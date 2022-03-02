@@ -1,20 +1,15 @@
 plugins {
-//    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-    id 'java-library'
-    id 'java-test-fixtures'
-//    id "org.flywaydb.flyway" version "8.0.4"
-//    id "org.flywaydb.flyway" version "5.2.4"
-//    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
+group 'com.jinheung'
+version '1.0.1'
 
-ext {
-    springCloudAwsVersion = '2.2.6.RELEASE'
+repositories {
+    mavenCentral()
 }
-
 
 dependencies {
-
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
@@ -33,32 +28,11 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test:2.6.3') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
-test { // 통합 제외 (유닛)
-    useJUnitPlatform()
-
-    testLogging {
-        showStandardStreams = false  // Set true, when you debug failed test
-    }
-}
-
-task integrationTest(type: Test, group: 'verification') { // 통합만
-    useJUnitPlatform {
-        includeTags("integration")
-    }
-
-    testLogging {
-        showStandardStreams = false  // Set true, when you debug failed test
-    }
-}
-
-task wholeTest(type: Test, group: 'verification') { // 전체
+test {
     useJUnitPlatform()
 }

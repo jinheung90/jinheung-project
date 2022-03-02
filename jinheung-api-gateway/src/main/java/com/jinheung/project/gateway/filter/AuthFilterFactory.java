@@ -1,18 +1,22 @@
 package com.jinheung.project.gateway.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.jinheung.common.consts.AuthHeaderNames;
-import com.jinheung.project.auth.TokenProvider;
 
 
-import com.jinheung.project.auth.dto.ParsedUserDataByJwtToken;
+import com.jinheung.common.dto.ParsedUserDataByJwtToken;
 import com.jinheung.project.auth.redis.service.RefreshTokenService;
+import com.jinheung.project.clients.UserResourceService;
+import com.jinheung.project.clients.UserResourceServiceImpl;
 import com.jinheung.project.config.RedisConfig;
 import com.jinheung.project.gateway.CustomLog;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -29,15 +33,19 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
 
 //    private final ReactiveRedisTemplate<String, RefreshTokenData> redisTemplate;
     private final RefreshTokenService refreshTokenService;
-    private final TokenProvider tokenProvider;
+    private final UserResourceServiceImpl userResourceService;
     private static final String REFRESH_REDIS_KEY = "refresh-redis-key";
     private static final String REFRESH_TOKEN_HEADER_NAME = "refresh-token";
     private final ObjectMapper objectMapper;
 
-    public AuthFilterFactory(TokenProvider tokenProvider,
-                             RefreshTokenService refreshTokenService, ObjectMapper objectMapper) {
+
+
+    public AuthFilterFactory(
+        UserResourceServiceImpl userResourceService,
+        RefreshTokenService refreshTokenService,
+        ObjectMapper objectMapper) {
         super(AuthFilterFactory.Config.class);
-        this.tokenProvider = tokenProvider;
+        this.userResourceService = userResourceService;
 //        this.redisTemplate = redisTemplate;
         this.refreshTokenService = refreshTokenService;
         this.objectMapper = objectMapper;
@@ -55,31 +63,32 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
             String token = resolveToken(headerVal);
 
             if(StringUtils.hasText(token)) {
-                ParsedUserDataByJwtToken tokenData = tokenProvider.getUserIdAndAuthorityByJwtAccessToken(token);
+//                ParsedUserDataByJwtToken tokenData = userResourceService.verifyToken(token).getBody();
+                ParsedUserDataByJwtToken tokenData = null;
                 if(tokenData != null)  {
                     log.info(tokenData.getUserId().toString());
                     request.mutate().header(AuthHeaderNames.USER_ID, tokenData.getUserId().toString());
                     request.mutate().header(AuthHeaderNames.USER_AUTHORITIES,
                         tokenData.getAuthorities().toArray(String[]::new));
+                        log.info(new Gson().toJson(
+                            new CustomLog(
+                                tokenData.getUserId().toString(),
+                                "request headewr",
+                                request.getMethod().toString(),
+                                request.getQueryParams().toString(),
+                                request.getPath().toString(),
+                                request.getRemoteAddress().getHostName(),
+                                ""
+                            )
+                        ), CustomLog.class);
 
-//                    log.info(objectMapper.writeValueAsString(
-//                        new CustomLog(
-//                            tokenData.getUserId().toString(),
-//                            "request headewr",
-//                            request.getMethod().toString(),
-//                            request.getQueryParams().toString(),
-//                            request.getPath().toString(),
-//                            request.getRemoteAddress().getHostName(),
-//                            ""
-//                        )
-//                    ));
                 }
             } else {
                 List<String> refreshHeaderVal = headers.get(REFRESH_TOKEN_HEADER_NAME);
                 if (refreshHeaderVal == null || refreshHeaderVal.isEmpty()) {
                     return chain.filter(exchange.mutate().request(request).build());
                 }
-                checkRefresh(refreshHeaderVal);
+                Mono<String> newRefreshToken = checkRefresh(refreshHeaderVal);
             }
             return chain.filter(exchange.mutate().request(request).build());
         };
@@ -93,7 +102,6 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
     }
 
     private String resolveToken(List<String> headerVal) {
-
 
         if(headerVal == null || headerVal.isEmpty()) {
             return null;
@@ -116,7 +124,7 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
                         LocalDateTime.parse(refreshTokenData.getRefreshExpired(),
                             DateTimeFormatter.ofPattern(RedisConfig.REDIS_TIME_FORMAT)
                             ).isAfter(LocalDateTime.now())) {
-                            return Mono.just(tokenProvider.createJwtAccessTokenByUser(null));
+                            return Mono.just(userResourceService.getTokenByRefresh(token));
                         }
                     }
                     return Mono.empty();

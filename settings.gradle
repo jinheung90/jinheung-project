@@ -3,4 +3,5 @@ include 'jinheung-api-gateway'
 include 'jinheung-user-profile'
 include 'jinheung-eureka-server'
 include 'common-module'
+include 'jinheung-search'
 

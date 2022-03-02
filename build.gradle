@@ -53,7 +53,7 @@ project(":jinheung-api-gateway") {
         implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-        implementation group: 'org.springframework.data', name: 'spring-data-r2dbc', version: '1.4.2'
+//        implementation group: 'org.springframework.data', name: 'spring-data-r2dbc', version: '1.4.2'
         compile project(":common-module")
     }
 }
@@ -75,3 +75,14 @@ project(":jinheung-user-profile") {
         compile project(":common-module")
     }
 }
+
+project(":jinheung-search") {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+        implementation "org.springframework.security:spring-security-oauth2-resource-server"
+        compile project(":common-module")
+    }
+}
+

@@ -1,8 +1,7 @@
-package com.jinheung.project.auth.dto;
+package com.jinheung.project.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
 
 import java.util.Date;
 import java.util.List;

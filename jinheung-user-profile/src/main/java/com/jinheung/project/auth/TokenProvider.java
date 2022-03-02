@@ -1,18 +1,21 @@
 package com.jinheung.project.auth;
 
 
-import com.jinheung.project.auth.dto.ParsedUserDataByJwtToken;
+import com.jinheung.project.domain.user.entity.Authority;
+import com.jinheung.project.domain.user.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -62,19 +65,17 @@ public class TokenProvider implements InitializingBean {
         return null;
     }
 
-    public String createJwtAccessTokenByUser(String user) {
-//
-//        String authorities = user.getAuthorities().stream()
-//            .map(Authority::getAuthority)
-//            .collect(Collectors.joining(","));
-//
-//        Date validity =  new Date(new Date().getTime() + mAccessTokenExpiration * 1000);
-//        return Jwts.builder()
-//            .setSubject(user.getId() + "")
-//            .claim(AUTHORITIES_KEY, authorities)
-//            .signWith(key, SignatureAlgorithm.HS512)
-//            .setExpiration(validity)
-//            .compact();
-        return user;
+    public String createJwtAccessTokenByUser(User user) {
+        String authorities = user.getAuthorities().stream()
+            .map(Authority::getAuthority)
+            .collect(Collectors.joining(","));
+
+        Date validity =  new Date(new Date().getTime() + mAccessTokenExpiration * 1000);
+        return Jwts.builder()
+            .setSubject(user.getId() + "")
+            .claim(AUTHORITIES_KEY, authorities)
+            .signWith(key, SignatureAlgorithm.HS512)
+            .setExpiration(validity)
+            .compact();
     }
 }
