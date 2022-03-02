@@ -34,22 +34,24 @@ public class JwtAuthenticationEntryPoint implements ServerAuthenticationEntryPoi
         return sendErrorMessage(exchange.getResponse());
     }
 
-    private Mono<Void> sendErrorMessage(ServerHttpResponse res) {
+    private Mono<Void> sendErrorMessage(final ServerHttpResponse res) {
         res.setStatusCode(HttpStatus.resolve(GlobalErrorCode.NOT_VALID_TOKEN.getStatus())); // 인가 부족 401
-        res.getHeaders().add("Content-Type", "application/json");
+        return Mono.just(res).flatMap(res1 -> {
+            res1.getHeaders().add("Content-Type", "application/json");
 
-        byte[] response = null;
-        try {
-            response = objectMapper.writeValueAsBytes(
-                ErrorResponse.responseBody(
-                    ((IErrorCode) GlobalErrorCode.NOT_VALID_TOKEN).getCode(),
-                    "not valid token",
-                    HttpStatus.resolve(((IErrorCode) GlobalErrorCode.NOT_VALID_TOKEN).getStatus())
-                ));
-        } catch (JsonProcessingException e) {
-            response = e.getMessage().getBytes();
-        }
-        DataBuffer dataBuffer = res.bufferFactory().wrap(response);
-        return res.writeWith(Mono.just(dataBuffer));
+            byte[] response = null;
+            try {
+                response = objectMapper.writeValueAsBytes(
+                    ErrorResponse.responseBody(
+                        ((IErrorCode) GlobalErrorCode.NOT_VALID_TOKEN).getCode(),
+                        "not valid token",
+                        HttpStatus.resolve(((IErrorCode) GlobalErrorCode.NOT_VALID_TOKEN).getStatus())
+                    ));
+            } catch (JsonProcessingException e) {
+                response = e.getMessage().getBytes();
+            }
+            DataBuffer dataBuffer = res1.bufferFactory().wrap(response);
+            return res1.writeWith(Mono.just(dataBuffer));
+        });
     }
 }
