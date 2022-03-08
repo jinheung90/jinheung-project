@@ -1,0 +1,89 @@
+
+#
+name: CI
+
+on:
+  # 이제부터 푸시할때 넘기는것 없애놓는다 무조건 풀 리퀘스트
+  push:
+    branches:
+      - 'release/**'
+  pull_request:
+    branches:
+      - 'release/**'
+jobs:
+  build:
+    name: DEPLOY
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        redis-version: [ 6 ]
+        mysql-version: [8.0]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+
+        with:
+          java-version: '11'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
+      - name: Build with Gradle
+        run: ./gradlew build
+        shell: bash
+
+      - name: delete main jar
+        run: rm -r ./audivice-user-main/build/libs/audivice-user-main-1.0.1.jar
+        shell: bash
+
+      #      - name: delete batch jar
+      #        run: rm -r ./wolfplanet-batch/build/libs/wolfplanet-batch-1.0.1.jar
+      #        shell: bash
+
+      - name: create main boot jar
+        run: ./gradlew bootJar -p ./audivice-user-main
+        shell: bash
+
+        # 테스트 후 Result를 보기위해 Publish Unit Test Results step 추가
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() }}  # 테스트가 실패하여도 Report를 보기 위해 `always`로 설정
+        with:
+          files: build/test-results/**/*.xml
+
+      - name: Cleanup Gradle Cache
+        # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
+        # Restoring these files from a GitHub Actions cache might cause problems for future builds.
+        if: ${{ always() }}
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
+        #GITHUB_SHA 랜덤으로 생성되는 이름(암호화)
+      - name: Make zip file
+        run: zip -qq -r ./$GITHUB_SHA.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://windfally-codedeploytest/$PROJECT_NAME/$GITHUB_SHA.zip
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name growing-chat-main --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name main --s3-location bucket=windfally-codedeploytest,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Github Action Test
+          fields: repo,message,action,eventName,ref,workflow
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
