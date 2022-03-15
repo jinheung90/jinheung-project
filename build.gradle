@@ -58,6 +58,18 @@ project(":jinheung-api-gateway") {
     }
 }
 
+project(":shop-product") {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+        compile project(":common-module")
+    }
+}
+
+
 project(":jinheung-eureka-server") {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -76,12 +88,23 @@ project(":jinheung-user-profile") {
     }
 }
 
-project(":jinheung-search") {
+
+project(":event-store") {
     dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+        implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-kafka', version: '3.1.6'
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-        implementation "org.springframework.security:spring-security-oauth2-resource-server"
+        compile project(":common-module")
+    }
+}
+
+project(":shop-product") {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
         compile project(":common-module")
     }
 }

@@ -124,10 +124,10 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
                         LocalDateTime.parse(refreshTokenData.getRefreshExpired(),
                             DateTimeFormatter.ofPattern(RedisConfig.REDIS_TIME_FORMAT)
                             ).isAfter(LocalDateTime.now())) {
-                            return Mono.just(userResourceService.getTokenByRefresh(token));
+                            return Mono.just(userResourceService.getTokenByRefresh(token).toString());
                         }
                     }
-                    return Mono.empty();
+                    return Mono.just("");
                 });
     }
 }

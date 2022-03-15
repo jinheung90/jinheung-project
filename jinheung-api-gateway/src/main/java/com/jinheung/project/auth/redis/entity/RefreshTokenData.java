@@ -12,7 +12,7 @@ import org.springframework.data.redis.core.RedisHash;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@RedisHash(value = "people", timeToLive = 30)
+@RedisHash(value = "refresh_token", timeToLive = 30)
 public class RefreshTokenData {
     @Id
     private String id;

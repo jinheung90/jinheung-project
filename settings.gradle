@@ -5,3 +5,6 @@ include 'jinheung-eureka-server'
 include 'common-module'
 include 'jinheung-search'
 include 'jinheung-signal'
+include 'shop-product'
+include 'event-store'
+

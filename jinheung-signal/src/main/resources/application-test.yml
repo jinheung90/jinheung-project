@@ -1,9 +1,0 @@
-spring:
-
-token:
-  access-token-expired: 21600
-management:
-  health:
-    redis:
-      enabled: true
-
