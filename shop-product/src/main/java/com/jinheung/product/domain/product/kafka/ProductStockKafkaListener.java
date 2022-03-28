@@ -10,6 +10,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import com.jinheung.common.dto.product.ReduceStockKafkaData;
+import com.jinheung.common.dto.payment.PaymentKafkaDto;
 
 @Component
 @RequiredArgsConstructor
@@ -31,11 +32,16 @@ public class ProductStockKafkaListener {
 
         if(productStock != null) {
             template.send(MsaEvents.KAFKA_TOPIC_PAYMENT,
-                    new KafkaEventDto(data.getEventId(), data.getJwtToken(), "success")
-                );
+                    new KafkaEventDto(data.getEventId(), data.getUserId(), data.getJwtToken(),
+                        new Gson().toJson(new PaymentKafkaDto(
+                            data.getUserId(),
+                            reduceStockKafkaData.getProductId(),
+                            reduceStockKafkaData.getReduceCount(),
+                            reduceStockKafkaData.getPrice()
+                            ), PaymentKafkaDto.class)));
         } else {
             template.send(MsaEvents.KAFKA_TOPIC_CLIENT_PROXY_ORDER_FAILURE,
-                new KafkaEventDto(data.getEventId(), data.getJwtToken(),  "stock is not enough"));
+                new KafkaEventDto(data.getEventId(),data.getUserId(), data.getJwtToken(),  "stock is not enough"));
         }
     }
 }

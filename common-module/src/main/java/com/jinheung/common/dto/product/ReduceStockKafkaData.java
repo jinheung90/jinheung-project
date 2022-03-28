@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class ReduceStockKafkaData {
     private String productId;
     private Integer reduceCount = 0;
+    private Integer price;
 }

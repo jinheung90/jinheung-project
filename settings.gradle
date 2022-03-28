@@ -7,4 +7,5 @@ include 'jinheung-search'
 include 'jinheung-signal'
 include 'shop-product'
 include 'shop-main'
+include 'shop-payment'
 

@@ -105,8 +105,16 @@ project(":shop-product") {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-        implementation "org.springframework.security:spring-security-oauth2-resource-server"
         implementation group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '4.2.10'
+        compile project(":common-module")
+    }
+}
+
+project(":shop-payment") {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         compile project(":common-module")
     }
 }

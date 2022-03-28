@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class KafkaEventDto {
     private String eventId;
+    private String userId;
     private String jwtToken;
     private String jsonData;
 }
