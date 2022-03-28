@@ -5,4 +5,5 @@ public class AuthHeaderNames {
     public static final String USER_ID = "jin-user-id";
     public static final String USER_AUTHORITIES = "jin-user-authorities";
     public static final String REFRESH_TOKEN_HEADER_NAME = "refresh-token";
+    public static final String ACCESS_TOKEN_HEADER = "access-token";
 }

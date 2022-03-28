@@ -67,7 +67,6 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
                 ParsedUserDataByJwtToken tokenData = null;
                 if(tokenData != null)  {
                     log.info(tokenData.getUserId().toString());
-                    request.mutate().header(AuthHeaderNames.ACCESS_TOKEN_HEADER, token);
                     request.mutate().header(AuthHeaderNames.USER_ID, tokenData.getUserId().toString());
                     request.mutate().header(AuthHeaderNames.USER_AUTHORITIES,
                         tokenData.getAuthorities().toArray(String[]::new));
