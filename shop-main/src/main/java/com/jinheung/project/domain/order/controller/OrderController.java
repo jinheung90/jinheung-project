@@ -1,6 +1,6 @@
 package com.jinheung.project.domain.order.controller;
 
-import com.jinheung.project.domain.dto.OrderRequest;
+import com.jinheung.project.domain.order.dto.OrderRequest;
 import com.jinheung.project.domain.order.service.OrderKafkaPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

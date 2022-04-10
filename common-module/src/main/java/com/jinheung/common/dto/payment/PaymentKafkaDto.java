@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentKafkaDto {
-    private String userId;
     private String productId;
+    private String orderId;
     private Integer quantity;
     private Integer price;
 }

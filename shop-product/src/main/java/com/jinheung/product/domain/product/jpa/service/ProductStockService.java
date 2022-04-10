@@ -1,13 +1,13 @@
 package com.jinheung.product.domain.product.jpa.service;
 
-import com.jinheung.product.domain.errorHandling.customRuntimeException.RuntimeExceptionWithCode;
+import com.jinheung.product.errorHandling.customRuntimeException.RuntimeExceptionWithCode;
 import com.jinheung.product.domain.product.jpa.entity.ProductStock;
 import com.jinheung.product.domain.product.jpa.repository.ProductStockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.jinheung.product.domain.errorHandling.errorEnums.GlobalErrorCode.NOT_EXISTS_PRODUCT;
+import static com.jinheung.product.errorHandling.errorEnums.GlobalErrorCode.NOT_EXISTS_PRODUCT;
 
 @Service
 @RequiredArgsConstructor

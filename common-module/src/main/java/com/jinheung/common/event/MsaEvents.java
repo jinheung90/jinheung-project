@@ -12,5 +12,6 @@ public class MsaEvents {
     public static final String KAFKA_TOPIC_PAYMENT = "/payment";
     public static final String KAFKA_TOPIC_PRODUCT_STOCK_REDUCE_SUCCESS = "/product/reduce-stock/success";
     public static final String KAFKA_TOPIC_CLIENT_PROXY_ORDER_FAILURE = "/order/failure";
+    public static final String KAFKA_TOPIC_PRODUCT_STOCK_REDUCE_FAILURE = "/product/reduce-stock/cancel";
     private String topic;
 }

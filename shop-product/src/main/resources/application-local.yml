@@ -8,6 +8,7 @@ spring:
     rest:
       username: root
       password: 1234
+      uris: http://locahlost:9200
 
 server:
   port: 8083

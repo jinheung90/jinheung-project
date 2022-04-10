@@ -1,0 +1,17 @@
+{
+  "number_of_replicas" : "3",
+  "number_of_shards" : "2",
+  "analysis": {
+    "tokenizer" : {
+      "seunjeon" : {
+        "type" : "seunjeon_tokenizer"
+      }
+    },
+    "analyzer" : {
+      "korean" : {
+        "type" : "custom",
+        "tokenizer" : "seunjeon"
+      }
+    }
+  }
+}

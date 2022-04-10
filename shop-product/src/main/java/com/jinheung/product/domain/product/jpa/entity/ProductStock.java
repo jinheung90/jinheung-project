@@ -24,4 +24,5 @@ public class ProductStock {
     @Column
     private Integer StockCount;
 
+
 }
