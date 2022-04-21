@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(indexName = "products_infos")
-@Setting(settingPath = "es/nori")
+@Setting(settingPath = "es/nori.json")
 public class ProductInfo {
 
     @Id

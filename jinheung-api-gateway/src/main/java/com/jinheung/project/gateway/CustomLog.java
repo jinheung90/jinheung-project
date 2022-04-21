@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class CustomLog {
-    private String userId = "0";
+    private String userId;
     private String message;
     private String method;
     private String queryString;

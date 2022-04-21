@@ -1,8 +1,8 @@
 package com.jinheung.project.config;
 
-
-import com.jinheung.project.auth.JwtAccessDeniedHandler;
-import com.jinheung.project.auth.JwtAuthenticationEntryPoint;
+//
+//import com.jinheung.project.auth.JwtAccessDeniedHandler;
+//import com.jinheung.project.auth.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,15 +26,16 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig  {
-
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+//
+//    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+//    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
             .httpBasic().disable()
             .csrf().disable();
+        http.authorizeExchange().pathMatchers("/user/**").permitAll();
 //            .exceptionHandling()
 //            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
 //            .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -44,7 +45,7 @@ public class SecurityConfig  {
 //            .pathMatchers("/user/**").permitAll()
 
 //            .and().cors().disable();
-            http.cors().configurationSource(this.corsConfigurationSource());
+        http.cors().configurationSource(this.corsConfigurationSource());
         return http.build();
     }
 

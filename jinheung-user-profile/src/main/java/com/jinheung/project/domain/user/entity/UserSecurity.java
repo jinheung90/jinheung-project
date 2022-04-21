@@ -12,11 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @Setter
-@Table(name = "user_securities",
-    uniqueConstraints = @UniqueConstraint(
-        columnNames = {"provider", "social_member_id"}
-    )
-)
+@Table(name = "user_securities")
 @Entity
 public class UserSecurity  {
 

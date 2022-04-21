@@ -1,4 +1,4 @@
-package com.jinheung.project.message;
+package com.jinheung.project.webscoket.message;
 
 
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,6 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
-
-import java.util.Objects;
 
 @RequiredArgsConstructor
 //@Component

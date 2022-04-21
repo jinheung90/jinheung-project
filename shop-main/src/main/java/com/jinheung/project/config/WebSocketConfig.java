@@ -1,7 +1,7 @@
 package com.jinheung.project.config;
 
-import com.jinheung.project.message.CustomChannelInterceptor;
-import com.jinheung.project.message.CustomHandshakeHandler;
+import com.jinheung.project.webscoket.message.CustomChannelInterceptor;
+import com.jinheung.project.webscoket.message.CustomHandshakeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Configuration;
@@ -23,13 +23,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/signal")
-            .setAllowedOrigins("http://localhost:3000","http://127.0.0.1:3000")
+        registry.addEndpoint("/client")
+            .setAllowedOrigins("http://localhost:8081","http://127.0.0.1:8081")
 //            .setAllowedOriginPatterns("https://*.audivice.com")
             .setHandshakeHandler(new CustomHandshakeHandler())
             .withSockJS();
-        registry.addEndpoint("/signal")
-            .setAllowedOrigins( "http://localhost:3000","http://127.0.0.1:3000");
+        registry.addEndpoint("/client")
+            .setAllowedOrigins( "http://localhost:8081","http://127.0.0.1:8081");
 //            .setAllowedOrigins( "https://*.audivice.com");
     }
 

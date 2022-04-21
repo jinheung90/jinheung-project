@@ -34,13 +34,16 @@
     https://www.popit.kr/rest-%EA%B8%B0%EB%B0%98%EC%9D%98-%EA%B0%84%EB%8B%A8%ED%95%9C-%EB%B6%84%EC%82%B0-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EA%B5%AC%ED%98%84-1%ED%8E%B8/
    
     shop main
+    spring sever port : 8083
  
  
     shop product
-    es (docker desktop error only singlenode)
-    docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch7 docker.elastic.co/elasticsearch/elasticsearch:7.9.0
-
+    docker-compose folder hack 
+    kafka node 3
+    zookeeper 
+    redis 
+    
 
 ```
 설계도
-![](../Downloads/Untitled Diagram.png)
+![](Untitled Diagram.png)

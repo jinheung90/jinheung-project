@@ -41,6 +41,8 @@ public class OrderKafkaPublisher {
                 ReduceStockKafkaData.class)
         ));
 
+
+
 //        kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_PAYMENT, new KafkaEventDto(
 //            id.toString(),jwt, new Gson().toJson(
 //                new PaymentKafkaDto(

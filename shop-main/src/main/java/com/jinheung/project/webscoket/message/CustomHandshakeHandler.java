@@ -1,4 +1,4 @@
-package com.jinheung.project.message;
+package com.jinheung.project.webscoket.message;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
@@ -7,7 +7,6 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 import java.security.Principal;
 import java.util.Map;
-import java.util.UUID;
 
 public class CustomHandshakeHandler extends DefaultHandshakeHandler {
     @Override

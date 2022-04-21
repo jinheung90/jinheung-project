@@ -10,6 +10,6 @@ eureka:
     service-url:
       default-zone: http://localhost:8761/eureka/
 token:
-  access-token-secret: awey34634561235GWSDGVdsgvdsfhyfasdzehgysurhrt232t6347yetseryesrytasrgdasdrgvbasdfgbaedsfrghaewrgaewrghaerghaerha34qw67yy45
+  access-token-secret: awey34634561235GWSDGVdsgaweweyfasdzehgysurhrt232t6347yetseryesrytasrgdasdrgvbasdfgbaedsfrghaewrgaewrghaerghaerha34qw67yy45
   refresh-token-expired: 1209600
   access-token-expired: 1209600

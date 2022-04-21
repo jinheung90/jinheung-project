@@ -1,8 +1,11 @@
 package com.jinheung.project.auth;
 
 
+import com.jinheung.common.dto.auth.ParsedUserDataByJwtToken;
 import com.jinheung.project.domain.user.entity.Authority;
 import com.jinheung.project.domain.user.entity.User;
+import com.jinheung.project.errorHandling.customRuntimeException.RuntimeExceptionWithCode;
+import com.jinheung.project.errorHandling.errorEnums.GlobalErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -55,14 +58,14 @@ public class TokenProvider implements InitializingBean {
 
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.warn("잘못된 JWT 서명입니다.");
+            throw new RuntimeExceptionWithCode(GlobalErrorCode.UNAUTHORIZED_USER);
         } catch (UnsupportedJwtException e) {
             log.warn("지원되지 않는 JWT 토큰입니다.");
+            throw new RuntimeExceptionWithCode(GlobalErrorCode.UNAUTHORIZED_USER);
         } catch (IllegalArgumentException e) {
             log.warn("JWT 토큰이 잘못되었습니다.");
-        } catch (ExpiredJwtException e) {
-            log.warn("JWT 토큰이 만료.");
+            throw new RuntimeExceptionWithCode(GlobalErrorCode.UNAUTHORIZED_USER);
         }
-        return null;
     }
 
     public String createJwtAccessTokenByUser(User user) {
@@ -78,4 +81,5 @@ public class TokenProvider implements InitializingBean {
             .setExpiration(validity)
             .compact();
     }
+
 }

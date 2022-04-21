@@ -1,22 +1,48 @@
 package com.jinheung.project.clients;
 
-import com.jinheung.common.dto.ParsedUserDataByJwtToken;
-import org.springframework.cloud.openfeign.FeignClient;
+import com.jinheung.common.dto.auth.ParsedUserDataByJwtToken;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-@FeignClient(name = "user-service")
-public interface UserResourceService {
-    @GetMapping(
-        value = "/user/token",
-        produces = "application/json")
-    ResponseEntity<String> getTokenByRefresh(
-        @RequestHeader() String bearerToken);
-    @GetMapping(
-        value = "/user/token/verify",
-        produces = "application/json")
-    ResponseEntity<ParsedUserDataByJwtToken> verifyToken(
-        @RequestHeader(HttpHeaders.AUTHORIZATION) String bearerToken);
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import javax.annotation.PostConstruct;
+
+
+
+//@FeignClient(name = "user-service")
+@Service
+public class UserResourceService {
+    @Value("${routes.user-service.base-uri}")
+    private String baseUri;
+
+    private WebClient webClient;
+
+    @PostConstruct
+    public void init() {
+        System.out.println(baseUri);
+        webClient = WebClient.builder()
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .build();
+    }
+
+    public Mono<ParsedUserDataByJwtToken> verifyToken(String token) {
+        System.out.println(token);
+        return webClient.get()
+            .uri(baseUri + "/user/token/verify")
+            .header(HttpHeaders.AUTHORIZATION, token)
+            .retrieve()
+            .bodyToMono(ParsedUserDataByJwtToken.class);
+    }
+
+    public Mono<String> getTokenById(Long id) {
+        return webClient.get()
+            .uri(uriBuilder -> uriBuilder.path("/user/token/{id}").build(id))
+            .retrieve()
+            .bodyToMono(String.class);
+    }
 }
 

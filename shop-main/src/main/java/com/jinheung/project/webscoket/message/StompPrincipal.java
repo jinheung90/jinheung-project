@@ -1,4 +1,4 @@
-package com.jinheung.project.message;
+package com.jinheung.project.webscoket.message;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -19,45 +19,45 @@ import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
-
-@Component
-@Order(-2)
-public class GlobalErrorExceptionHandler extends AbstractErrorWebExceptionHandler {
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    public GlobalErrorExceptionHandler(ErrorAttributes errorAttributes, ResourceProperties resourceProperties, ApplicationContext applicationContext,
-                                       ServerCodecConfigurer serverCodecConfigurer) {
-        super(errorAttributes, resourceProperties, applicationContext);
-        super.setMessageWriters(serverCodecConfigurer.getWriters());
-        super.setMessageReaders(serverCodecConfigurer.getReaders());
-    }
-
-    @Override
-    protected RouterFunction<ServerResponse> getRoutingFunction(final ErrorAttributes errorAttributes) { // 마지막으로 거쳐서 온 에러들
-
-        GlobalErrorAttributes attributes = null;
-
-        if(errorAttributes instanceof GlobalErrorAttributes) {
-            attributes = (GlobalErrorAttributes)errorAttributes;
-        }
-
-        return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
-    }
-
-    private Mono<ServerResponse> renderErrorResponse(final ServerRequest request) {
-        final Map<String, Object> errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.defaults()); // attribute에서 가져온것
-        if(errorPropertiesMap.get("status") instanceof Integer) {
-            return ServerResponse.status((Integer) errorPropertiesMap.get("status")) // 여기에는 에러페이지 까지 작성할 수 있으나 그럴 필요가 없다
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(BodyInserters.fromValue(errorPropertiesMap));
-        } else if(errorPropertiesMap.get("status") instanceof HttpStatus) {
-            return ServerResponse.status((HttpStatus) errorPropertiesMap.get("status")) // 여기에는 에러페이지 까지 작성할 수 있으나 그럴 필요가 없다
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(BodyInserters.fromValue(errorPropertiesMap));
-        }
-        return ServerResponse.status(500) // 여기에는 에러페이지 까지 작성할 수 있으나 그럴 필요가 없다
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(errorPropertiesMap));
-    }
-}
+// is deprecated
+//@Component
+//@Order(-2)
+//public class GlobalErrorExceptionHandler extends AbstractErrorWebExceptionHandler {
+//
+//    private Logger logger = LoggerFactory.getLogger(this.getClass());
+//
+//    public GlobalErrorExceptionHandler(ErrorAttributes errorAttributes, ResourceProperties resourceProperties, ApplicationContext applicationContext,
+//                                       ServerCodecConfigurer serverCodecConfigurer) {
+//        super(errorAttributes, resourceProperties, applicationContext);
+//        super.setMessageWriters(serverCodecConfigurer.getWriters());
+//        super.setMessageReaders(serverCodecConfigurer.getReaders());
+//    }
+//
+//    @Override
+//    protected RouterFunction<ServerResponse> getRoutingFunction(final ErrorAttributes errorAttributes) { // 마지막으로 거쳐서 온 에러들
+//
+//        GlobalErrorAttributes attributes = null;
+//
+//        if(errorAttributes instanceof GlobalErrorAttributes) {
+//            attributes = (GlobalErrorAttributes)errorAttributes;
+//        }
+//
+//        return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
+//    }
+//
+//    private Mono<ServerResponse> renderErrorResponse(final ServerRequest request) {
+//        final Map<String, Object> errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.defaults()); // attribute에서 가져온것
+//        if(errorPropertiesMap.get("status") instanceof Integer) {
+//            return ServerResponse.status((Integer) errorPropertiesMap.get("status")) // 여기에는 에러페이지 까지 작성할 수 있으나 그럴 필요가 없다
+//                    .contentType(MediaType.APPLICATION_JSON)
+//                    .body(BodyInserters.fromValue(errorPropertiesMap));
+//        } else if(errorPropertiesMap.get("status") instanceof HttpStatus) {
+//            return ServerResponse.status((HttpStatus) errorPropertiesMap.get("status")) // 여기에는 에러페이지 까지 작성할 수 있으나 그럴 필요가 없다
+//                    .contentType(MediaType.APPLICATION_JSON)
+//                    .body(BodyInserters.fromValue(errorPropertiesMap));
+//        }
+//        return ServerResponse.status(500) // 여기에는 에러페이지 까지 작성할 수 있으나 그럴 필요가 없다
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(BodyInserters.fromValue(errorPropertiesMap));
+//    }
+//}

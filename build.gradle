@@ -52,19 +52,8 @@ project(":jinheung-api-gateway") {
 //        implementation group: 'org.springframework.cloud', name: 'spring-cloud-security', version: '2.2.5.RELEASE'
         implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
 //        implementation group: 'org.springframework.data', name: 'spring-data-r2dbc', version: '1.4.2'
-        compile project(":common-module")
-    }
-}
-
-project(":shop-product") {
-    dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-webflux'
-        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-
         compile project(":common-module")
     }
 }
@@ -95,6 +84,7 @@ project(":shop-main") {
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         implementation "org.springframework.security:spring-security-oauth2-resource-server"
+        implementation group: 'com.amazonaws', name: 'aws-java-sdk-sqs', version: '1.12.202'
         compile project(":common-module")
     }
 }
@@ -106,6 +96,7 @@ project(":shop-product") {
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         implementation group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '4.2.10'
+        implementation group: 'com.amazonaws', name: 'aws-java-sdk-sqs', version: '1.12.202'
         compile project(":common-module")
     }
 }
@@ -115,6 +106,7 @@ project(":shop-payment") {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+        implementation group: 'com.amazonaws', name: 'aws-java-sdk-sqs', version: '1.12.202'
         compile project(":common-module")
     }
 }
