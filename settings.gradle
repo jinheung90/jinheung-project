@@ -3,7 +3,7 @@ include 'jinheung-api-gateway'
 include 'jinheung-user-profile'
 include 'jinheung-eureka-server'
 include 'common-module'
-include 'jinheung-search'
+//include 'jinheung-search'
 
 include 'shop-product'
 include 'shop-main'
