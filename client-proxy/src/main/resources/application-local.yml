@@ -2,7 +2,7 @@ spring:
   application:
     name: shop-main
   datasource:
-    url: jdbc:mysql://localhost:3306/jinheung_shop_main?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/jinheung_client_proxy?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 1234
@@ -15,8 +15,11 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL57Dialect
     show-sql: true
+  redis:
+    host: localhost
+    port: 6379
 server:
-  port: 8083
+  port: 8084
 eureka:
   client:
     register-with-eureka: true

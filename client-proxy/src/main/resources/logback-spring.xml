@@ -17,7 +17,7 @@
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logs/eureka/stdout.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>/logs/client/stdout.log.%d{yyyy-MM-dd}</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
@@ -26,33 +26,18 @@
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>WARN</level>
 		</filter>
-<!--		<target>System.err</target>-->
+<!--		<target>System.err</target>-->`
 		<encoder>
 			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logs/eureka/stderr.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>/logs/client/stderr.log.%d{yyyy-MM-dd}</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
 
 	<!-- slack-->
-	<appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-		<webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
-		</layout>
-		<username>Server-log</username>
-		<colorCoding>true</colorCoding>
-	</appender>
-
-	<appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
-		<appender-ref ref="SLACK"/>
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>ERROR</level>
-		</filter>
-	</appender>
 
 
 
@@ -66,6 +51,10 @@
 			<fileNamePattern>./stdout.log.%d{yyyy-MM-dd}</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
+	</appender>
+
+	<appender name="LOCAL_OUT_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="LOCAL_OUT" />
 	</appender>
 
 	<appender name="LOCAL_ERR" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -82,7 +71,9 @@
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
-
+	<appender name="LOCAL_ERR_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="LOCAL_ERR" />
+	</appender>
 
 	<springProfile name="prod">
 		<logger name="com.jinheung.project" level="INFO" additivity="true">
@@ -91,19 +82,17 @@
 		<root level="INFO">
 			<appender-ref ref="STDERR" />
 		</root>
-		<root level="ERROR">
-			<appender-ref ref="ASYNC_SLACK"/>
-		</root>
+
 	</springProfile>
 
 
 	<springProfile name="local">
 
 		<logger name="com.jinheung.project" level="INFO" additivity="true">
-			<appender-ref ref="LOCAL_OUT" />
+			<appender-ref ref="LOCAL_OUT_ASYNC" />
 		</logger>
 		<root level="INFO">
-			<appender-ref ref="LOCAL_ERR" />
+			<appender-ref ref="LOCAL_ERR_ASYNC" />
 			<appender-ref ref="CONSOLE"/>
 		</root>
 

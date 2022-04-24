@@ -8,17 +8,26 @@ spring:
         uri: http://localhost:8082
         predicates:
          - Path=/user/**
-      - id: client-proxy-sockjs
-        uri: http://localhost:8083
+      - id: websocket_route
+        uri: lb:ws://localhost:8084
         predicates:
          - Path=/client/**
+      - id: client-proxy-sockjs
+        uri: http://localhost:8084
+        predicates:
+         - Path=/client/info/**
+        filters:
+          - SockjsFilterFactory
+      - id: shop-main
+        uri: http://localhost:8083
+        predicates:
+          - Path=/order/**
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
         - AuthFilterFactory
   redis:
     host: localhost
     port: 6379
-
 server:
   port: 8081
 eureka:
@@ -31,4 +40,4 @@ routes:
   user-service:
     base-uri: http://localhost:8082
   client-proxy-sockjs:
-    base-uri: http://localhost:8083
+    base-uri: http://localhost:8084

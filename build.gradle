@@ -13,6 +13,7 @@ plugins {
 
 ext {
     set('springCloudVersion', "2020.0.5")
+
 }
 
 allprojects {
@@ -110,4 +111,15 @@ project(":shop-payment") {
         compile project(":common-module")
     }
 }
+
+project(":client-proxy") {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+        compile project(":common-module")
+    }
+}
+
 

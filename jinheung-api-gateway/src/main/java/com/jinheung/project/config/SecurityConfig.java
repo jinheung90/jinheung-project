@@ -36,6 +36,8 @@ public class SecurityConfig  {
             .httpBasic().disable()
             .csrf().disable();
         http.authorizeExchange().pathMatchers("/user/**").permitAll();
+        http.authorizeExchange().pathMatchers("/client/**").permitAll();
+        http.authorizeExchange().pathMatchers("/order/**").permitAll();
 //            .exceptionHandling()
 //            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
 //            .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -60,6 +62,7 @@ public class SecurityConfig  {
 
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
