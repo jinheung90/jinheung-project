@@ -4,13 +4,11 @@
 name: CI
 
 on:
-  # 이제부터 푸시할때 넘기는것 없애놓는다 무조건 풀 리퀘스트
+
   push:
-    branches:
-      - 'main/**'
+    branches: [ main ]
   pull_request:
-    branches:
-      - 'main/**'
+    branches: [ main ]
 jobs:
   build:
     name: DEPLOY
