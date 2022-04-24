@@ -36,13 +36,13 @@ jobs:
         shell: bash
 
       - name: delete main jar
-        run: rm -r ./jinhueng-api-gateway/build/libs/jinheung-api-gateway-1.0.1.jar
+        run: rm -r ./jinhueng-api-gateway/build/libs/*.jar
         shell: bash
       - name: delete main jar
-        run: rm -r ./jinheung-eureka-server/build/libs/jinheung-eureka-server-1.0.1.jar
+        run: rm -r ./jinheung-eureka-server/build/libs/*.jar
         shell: bash
       - name: delete main jar
-        run: rm -r ./jinheung-eureka-server/build/libs/client-proxy-1.0.1.jar
+        run: rm -r ./jinheung-eureka-server/build/libs/*.jar
         shell: bash
 
       - name: create main boot jar
