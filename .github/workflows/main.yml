@@ -88,6 +88,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://windfally-codedeploytest/$PROJECT_NAME/$GITHUB_SHA.zip
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://jinheung-project/$PROJECT_NAME/$GITHUB_SHA.zip
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name growing-chat-match --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name match-group-1 --s3-location bucket=windfally-codedeploytest,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+        run: aws deploy create-deployment --application-name jinheung-project --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name jinheung-project-group --s3-location bucket=jinheung-project,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
