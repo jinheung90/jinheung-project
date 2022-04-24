@@ -46,4 +46,4 @@
 
 ```
 설계도
-![](Untitled Diagram.png)
+![](diagram_all.png)
