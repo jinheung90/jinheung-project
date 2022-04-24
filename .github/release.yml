@@ -1,0 +1,93 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+#
+name: CI
+
+on:
+  # 이제부터 푸시할때 넘기는것 없애놓는다 무조건 풀 리퀘스트
+  push:
+    branches:
+      - 'main/**'
+  pull_request:
+    branches:
+      - 'main/**'
+jobs:
+  build:
+    name: DEPLOY
+    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        redis-version: [ 6 ]
+#        mysql-version: [8.0]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+
+        with:
+          java-version: '11'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
+      - name: Build with Gradle
+        run: ./gradlew build
+        shell: bash
+
+      - name: delete main jar
+        run: rm -r ./jinhueng-api-gateway/build/libs/jinheung-api-gateway-1.0.1-plain.jar
+        shell: bash
+      - name: delete main jar
+        run: rm -r ./jinheung-eureka-server/build/libs/jinheung-eureka-server-1.0.1-plain.jar
+        shell: bash
+      - name: delete main jar
+        run: rm -r ./jinheung-eureka-server/build/libs/client-proxy-1.0.1-plain.jar
+        shell: bash
+
+      - name: create main boot jar
+        run: ./gradlew bootJar -p ./jinheung-api-gateway
+        shell: bash
+      - name: create main boot jar
+        run: ./gradlew bootJar -p ./jinheung-eureka-server
+        shell: bash
+      - name: create main boot jar
+        run: ./gradlew bootJar -p ./client-proxy-1.0.1-plain
+        shell: bash
+
+#      - name: create batch boot jar
+#        run: ./gradlew bootJar -p ./wolfplanet-batch
+#        shell: bash
+
+        # 테스트 후 Result를 보기위해 Publish Unit Test Results step 추가
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() }}  # 테스트가 실패하여도 Report를 보기 위해 `always`로 설정
+        with:
+          files: build/test-results/**/*.xml
+
+      - name: Cleanup Gradle Cache
+        # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
+        # Restoring these files from a GitHub Actions cache might cause problems for future builds.
+        if: ${{ always() }}
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
+        #GITHUB_SHA 랜덤으로 생성되는 이름(암호화)
+      - name: Make zip file
+        run: zip -qq -r ./$GITHUB_SHA.zip .
+        shell: bash
+
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://windfally-codedeploytest/$PROJECT_NAME/$GITHUB_SHA.zip
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name growing-chat-match --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name match-group-1 --s3-location bucket=windfally-codedeploytest,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
