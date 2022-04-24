@@ -21,8 +21,6 @@ public class ClientEventListener {
     private final SimpMessagingTemplate messagingTemplate;
     private final UserSessionService userSessionService;
 
-
-
     @SqsListener(value = "client-proxy", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
     private void receiveMessage(String message, @Header("userId") String userId) {
         messagingTemplate.convertAndSendToUser(
