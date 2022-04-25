@@ -1,1 +1,0 @@
-ALTER TABLE university_departments rename column user_id to university_department_id;
