@@ -45,11 +45,7 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
             final HttpHeaders headers = request.getHeaders();
             final List<String> headerVal = headers.get(HttpHeaders.AUTHORIZATION);
             final String token = resolveToken(headerVal);
-            log.info(headers.getAccessControlAllowOrigin() + "");
-//            if(StringUtils.hasText(token)) {
             userResourceService.verifyToken(token).map(res -> {
-                log.info("Test");
-//                log.info(res.getUserId().toString());
                 if (res != null && res.getUserId() != null && !res.getUserId().equals(0L)) {
                     final String userId = res.getUserId().toString();
                     final String[] authorities = res.getAuthorities().toArray(String[]::new);
@@ -57,7 +53,6 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
                     request.mutate().header(AuthHeaderNames.USER_ID, userId).build();
                     request.mutate().header(AuthHeaderNames.USER_AUTHORITIES,
                         authorities).build();
-                    return null;
                 }
                 return null;
             });
@@ -78,8 +73,7 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
 
     @Getter
     public static class Config {
-//        private final String userRoleHeaderName = "user-role";
-//        private final String userIdHeaderName = "user-id";
+
     }
 
     private String resolveToken(List<String> headerVal) {
