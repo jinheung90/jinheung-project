@@ -1,11 +1,13 @@
 package com.jinheung.project.webscoket.message;
 
 
+import com.jinheung.project.domain.user.redis.repository.UserSessionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -20,10 +22,11 @@ public class CustomChannelInterceptor implements ChannelInterceptor {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
+
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.wrap(message);
         if (StompCommand.CONNECTED.equals(stompHeaderAccessor.getCommand())) {
-            log.info("test");
+
         }
         if (StompCommand.DISCONNECT.equals(stompHeaderAccessor.getCommand())) {
 

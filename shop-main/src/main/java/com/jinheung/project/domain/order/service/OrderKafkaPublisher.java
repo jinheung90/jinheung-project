@@ -33,6 +33,7 @@ public class OrderKafkaPublisher {
         Integer price) {
 
         UUID id = UUID.randomUUID();
+
         kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_PRODUCT_STOCK_REDUCE,
             new KafkaEventDto(
             id.toString(),userId, jwt,
@@ -40,8 +41,6 @@ public class OrderKafkaPublisher {
                 new ReduceStockKafkaData(productId, quantity, price),
                 ReduceStockKafkaData.class)
         ));
-
-
 
 //        kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_PAYMENT, new KafkaEventDto(
 //            id.toString(),jwt, new Gson().toJson(

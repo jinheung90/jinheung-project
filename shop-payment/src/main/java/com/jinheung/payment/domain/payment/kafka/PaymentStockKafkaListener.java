@@ -36,7 +36,7 @@ public class PaymentStockKafkaListener {
         );
         if(paymentLog.getPayFailType().equals(PayFailType.LACK_OF_BALANCE)) {
             // 잔액 부족이면 취소시키고 재고 감소도 취소시킨다
-            template.send(KAFKA_TOPIC_PRODUCT_STOCK_REDUCE_FAILURE, new KafkaEventDto(
+            template.send("", new KafkaEventDto(
 
             ));
         }

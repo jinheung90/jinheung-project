@@ -15,6 +15,14 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL57Dialect
     show-sql: true
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: shop_main_orchestration
+      #      password: 1234
+      authentication-database: admin
+      auto-index-creation: true
 server:
   port: 8083
 eureka:

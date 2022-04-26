@@ -1,0 +1,17 @@
+# ref: https://jojoldu.tistory.com/509
+aws:
+  paramstore:
+    enabled: false
+    prefix: /jinheung-project
+    name: client_proxy
+    profileSeparator: _
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+aws:
+  paramstore:
+    enabled: true

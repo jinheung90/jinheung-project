@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFactory.Config> {
 
-//    private final ReactiveRedisTemplate<String, RefreshTokenData> redisTemplate;
+
     private RefreshTokenService refreshTokenService;
     private UserResourceService userResourceService;
     private static final String REFRESH_REDIS_KEY = "refresh-redis-key";

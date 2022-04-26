@@ -11,4 +11,8 @@ public class UserSessionService {
     public String findByUserId(String userId) {
         return userSessionRepository.getUserSessionByUserId(userId);
     }
+
+    public void saveUserId(String userId, String sessionUserId) {
+        userSessionRepository.setUserSessionByUserId(userId, sessionUserId);
+    }
 }

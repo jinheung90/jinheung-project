@@ -3,47 +3,67 @@
 ### jinheung-api-gateway
 
 ```
-    infra
-    redis localhost:6379
-    spring server port : 8081
-    
-    reactive logging
-    https://cloud.spring.io/spring-cloud-gateway/multi/multi__reactor_netty_access_logs.html
+
+     spring server port : 8081
      
-    main function
-    gateway, authorization, logging
+     기능 : 글로벌 인증 필터 
+     헤더에 파싱된 유저아이디, 유저롤을 넣어줍니다
+     
      
 ```
 
 ### jinheung-euraka-server
 
 ```
-    https://velog.io/@jinheung90/spring-cloud-eureka-%EC%84%A4%EC%A0%95
+    기능 : 유레카 서버 해당 서비스 목록을 확인할 수 있다
 ```
 
-### jinheung-user-profile (oauth resource server)
+### jinheung-user-profile (resource server)
 
 ```
     spring server port : 8082
+    
+    기능 : 유저의 정보, jwt 토큰 발행 및 파싱
 ```
+
+### client-proxy 
+
+```
+    spring server port : 8084
+    
+    기능: kafka에서 보낸 여러 이벤트 들을 받아서 websocket으로 
+    유저에게 전달 (ex 재고가 부족해요!, 잔액이 부족해요!)
+    
+```
+
+
 
 ### jinheung-shop
 
 ```
-    참고 및 도움이 되었던 글 (너무 잘봤습니다)
-    https://www.popit.kr/rest-%EA%B8%B0%EB%B0%98%EC%9D%98-%EA%B0%84%EB%8B%A8%ED%95%9C-%EB%B6%84%EC%82%B0-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EA%B5%AC%ED%98%84-1%ED%8E%B8/
-   
     shop main
     spring sever port : 8083
- 
+    
+    기능 : api로 맨 처음 받는 서비스 shop product, 
+    shop payment 등 에게 카프카로 메세지 날림
+    주문 결제에 관한 메세지를 모두 모아서 mongodb에 저장했다가 
+    all success면 client proxy에 전달 (orchestration)
  
     shop product
-    docker-compose folder hack 
-    kafka node 3
-    zookeeper 
-    redis 
+    기능 : 재고를 차감하는 서비스
+    재고가 없으면 메세지를 날린다
+    재고의 수를 shop search와 동기화 시킨다 
     
+    shop search 
+    기능 : es를 이용한 제품 검색 
+    
+    shop payment
+    기능 : 결제기능 아임포트와 연결 
+    아임포트의 검증 시스템 사용하여 문제가 있으면 
+    scheduler를 이용해 재시도
+    아니면 성공과 함께 메세지 
 
 ```
 설계도
-![](포트폴리오%20설계도.png)
+
+![](포트폴리오.png)

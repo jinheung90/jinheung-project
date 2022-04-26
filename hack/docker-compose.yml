@@ -34,7 +34,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_LOG_RETENTION_HOURS: 24
     volumes:
       - ./usr/kafka/kafka1/data:/var/lib/kafka/data
@@ -56,7 +56,7 @@ services:
       KAFKA_BROKER_ID: 2
       KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_LOG_RETENTION_HOURS: 24
     volumes:
       - ./usr/kafka/kafka2/data:/var/lib/kafka/data
@@ -79,7 +79,7 @@ services:
       KAFKA_BROKER_ID: 3
       KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_LOG_RETENTION_HOURS: 24
     volumes:
       - ./usr/kafka/kafka3/data:/var/lib/kafka/data
@@ -119,4 +119,15 @@ services:
       - C:\es
     ports:
       - 9200:9200
-
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_HOST: localhost
+      MONGO_PORT: 27017
+    volumes:
+      - type: bind
+        source: ./data/db
+        target: /data/db
+    ports:
+      - "27017:27017"

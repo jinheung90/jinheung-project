@@ -4,7 +4,6 @@
 name: CI
 
 on:
-
   push:
     branches: [ main ]
   pull_request:
@@ -55,7 +54,6 @@ jobs:
         run: ./gradlew bootJar -p ./client-proxy
         shell: bash
 
-
       - name: Cleanup Gradle Cache
         # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
         # Restoring these files from a GitHub Actions cache might cause problems for future builds.
@@ -67,7 +65,6 @@ jobs:
       - name: Make zip file
         run: zip -qq -r ./$GITHUB_SHA.zip .
         shell: bash
-
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
