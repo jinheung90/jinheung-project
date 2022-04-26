@@ -30,17 +30,20 @@ sudo chmod -R 777 /logs
 # So, profile should be checked in deploy script
 # test server is only one and develop deploy is changed
 if [ "$APPLICATION_NAME" == "jinheung-project" ]; then
-  ACTIVE_PROFILE=local
+  sudo fuser -k 8081/tcp
+  sudo fuser -k 8082/tcp
+  sudo fuser -k 8084/tcp
+  ACTIVE_PROFILE=prod
   BUILD_DIR="/opt/app/gateway/jinhueng-api-gateway/build/libs/"
   SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8081"
   sudo nohup java -jar $SPRING_OPTIONS $APPLICATION_JAR 1>>$STDOUT 2>>$STDERR &
 
-  BUILD_DIR="/opt/app/gateway/jinhueng-eureka-server/build/libs/"
+  BUILD_DIR="/opt/app/client/jinhueng-eureka-server/build/libs/"
   SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8082"
   sudo nohup java -jar $SPRING_OPTIONS $APPLICATION_JAR 1>>$STDOUT 2>>$STDERR &
 
-  BUILD_DIR="/opt/app/gateway/jinhueng-eureka-server/build/libs/"
-  SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8082"
+  BUILD_DIR="/opt/app/shop-main/jinhueng-eureka-server/build/libs/"
+  SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8084"
   sudo nohup java -jar $SPRING_OPTIONS $APPLICATION_JAR 1>>$STDOUT 2>>$STDERR &
 
 fi

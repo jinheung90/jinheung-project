@@ -17,7 +17,7 @@
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logs/user/stdout.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>/logs/shop/stdout.log.%d{yyyy-MM-dd}</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>

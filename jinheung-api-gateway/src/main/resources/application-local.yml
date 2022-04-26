@@ -36,6 +36,9 @@ eureka:
     fetch-registry: true
     service-url:
       default-zone: http://localhost:8761/eureka/
+
+#      instanceProfile: true
+#      useDefaultAwsCredentialsChain: true
 routes:
   user-service:
     base-uri: http://localhost:8082

@@ -3,19 +3,8 @@ aws:
   paramstore:
     enabled: false
     prefix: /jinheung_project
-    name: client
+    name: gateway
     profileSeparator: _
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: develop
-
-aws:
-  paramstore:
-    enabled: true
 
 ---
 

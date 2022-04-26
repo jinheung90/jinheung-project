@@ -23,8 +23,6 @@ import java.util.ArrayList;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -44,8 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/actuator/**"
                 );
     }
-
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
