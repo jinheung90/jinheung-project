@@ -101,24 +101,24 @@ services:
       - kafka1
       - kafka2
       - kafka3
-
-  es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.2
-    container_name: elasticsearch
-    environment:
-      - node.name=elasticsearch
-      - discovery.type=single-node
-      - cluster.name=es-docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - C:\es
-    ports:
-      - 9200:9200
+# nori flugin 설치 이슈로 따로 설치해서 가져오세요
+#  es01:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.2
+#    container_name: elasticsearch
+#    environment:
+#      - node.name=elasticsearch
+#      - discovery.type=single-node
+#      - cluster.name=es-docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - C:\es
+#    ports:
+#      - 9200:9200
   mongodb:
     image: mongo
     restart: always

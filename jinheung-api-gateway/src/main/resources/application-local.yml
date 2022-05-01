@@ -8,20 +8,14 @@ spring:
         uri: http://localhost:8082
         predicates:
          - Path=/user/**
-      - id: websocket_route
-        uri: lb:ws://localhost:8084
-        predicates:
-         - Path=/client/**
-      - id: client-proxy-sockjs
-        uri: http://localhost:8084
-        predicates:
-         - Path=/client/info/**
-        filters:
-          - SockjsFilterFactory
       - id: shop-main
         uri: http://localhost:8083
         predicates:
           - Path=/order/**
+      - id: shop-search
+        uri: http://localhost:8085
+        predicates:
+          - Path=/search/**
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
         - AuthFilterFactory

@@ -42,3 +42,5 @@ wolfplanet-main/src/main/resources/fcm-service.json
 
 /stderr.log.*
 /stdout.log.*
+/hack/data/
+/hack/usr/

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Table(name = "product_stocks")
 @Entity
-@Setter
+
 public class ProductStock {
 
     @Id
@@ -18,11 +18,26 @@ public class ProductStock {
     @Column(name = "product_stocks")
     private Long id = null;
 
-    @Column
+    @Column(name = "product_id")
     private String productId;
 
+    @Column(name = "stock_count")
+    private Integer stockCount;
+
+    @Column(name = "order_id")
+    private String orderId;
+
     @Column
-    private Integer StockCount;
+    private Integer price;
+
+
+    public boolean reduceStock(int count) {
+        stockCount -= count;
+        if(stockCount < 0) {
+            stockCount += count;
+            return false;
+        } else return true;
+    }
 
 
 }

@@ -1,9 +1,10 @@
 package com.jinheung.project.domain.order.service;
 
 import com.google.gson.Gson;
-import com.jinheung.common.dto.kafka.KafkaEventDto;
-import com.jinheung.common.dto.product.ReduceStockKafkaData;
-import com.jinheung.common.event.ClientEventTopics;
+import com.jinheung.common.dto.client.FromOrderPayload;
+
+import com.jinheung.common.dto.product.OrderVerifyPayload;
+
 import com.jinheung.common.event.MsaEvents;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -12,16 +13,19 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import static com.jinheung.common.event.MsaEvents.KAFKA_TOPIC_CLIENT_PROXY_ORDER_FAILURE;
+
 @Component
 @RequiredArgsConstructor
 public class OrderFailureKafkaListener {
-    private final KafkaTemplate<String, KafkaEventDto> template;
-    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final KafkaTemplate<String, FromOrderPayload> template;
+    private final OrderService orderService;
 
-    @KafkaListener(id = "product", topics = MsaEvents.KAFKA_TOPIC_CLIENT_PROXY_ORDER_FAILURE)
-    public void reduceStockProductCount(@Payload KafkaEventDto data) {
-        simpMessagingTemplate.convertAndSendToUser(
-            data.getJwtToken(), ClientEventTopics.ORDER_EVENT_TOPIC,
-            data.getJsonData());
+    @KafkaListener(topics = KAFKA_TOPIC_CLIENT_PROXY_ORDER_FAILURE)
+    public void onOrderFailure(@Payload OrderVerifyPayload data) {
+        orderService.saveFailureOrderEvent(data.getOrderId(), data.getMessage());
+        template.send(MsaEvents.KAFKA_ORDER_CLIENT_PROXY, new FromOrderPayload(
+            data.getUserId(),data.getOrderId(),data.getMessage()
+        ));
     }
 }

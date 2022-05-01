@@ -10,4 +10,5 @@ public class OrderRequest {
     private String productId;
     private Integer price;
     private Integer quantity;
+    private String impUid;
 }

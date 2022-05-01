@@ -1,7 +1,11 @@
 package com.jinheung.project.domain.order.controller;
 
 import com.jinheung.project.domain.order.dto.OrderRequest;
+import com.jinheung.project.domain.order.mongo.doc.OrderEvent;
 import com.jinheung.project.domain.order.service.OrderKafkaPublisher;
+import com.jinheung.project.domain.order.service.OrderService;
+import com.jinheung.project.errorHandling.customRuntimeException.RuntimeExceptionWithCode;
+import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +22,27 @@ import static com.jinheung.common.consts.AuthHeaderNames.USER_ID;
 public class OrderController {
 
     private final OrderKafkaPublisher orderKafkaPublisher;
+    private final OrderService orderService;
 
-    @PostMapping("/order")
+    @PostMapping("/order/verify")
     public ResponseEntity getUserAuthority(
         @RequestBody OrderRequest orderRequest,
         @RequestHeader(name = ACCESS_TOKEN_HEADER) String jwt,
         @RequestHeader(name = USER_ID) Long userId
         ) {
+        Payment payment = orderService.verifyPayment(
+            userId,
+            orderRequest.getProductId(),
+            orderRequest.getImpUid(),
+            orderRequest.getQuantity(),
+            orderRequest.getPrice()
+        );
+
         orderKafkaPublisher.orderPublish(
-            userId.toString(),jwt,
+            orderRequest.getImpUid(),
             orderRequest.getProductId(),
             orderRequest.getQuantity(),
+            userId,
             orderRequest.getPrice()
         );
         return ResponseEntity.ok("get ");

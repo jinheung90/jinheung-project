@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserSessionService {
     private final UserSessionRepository userSessionRepository;
-    public String findByUserId(String userId) {
-        return userSessionRepository.getUserSessionByUserId(userId);
+    public String findByUserId(Long userId) {
+        return userSessionRepository.getUserSessionByUserId(userId.toString());
     }
 
     public void saveUserId(String userId, String sessionUserId) {

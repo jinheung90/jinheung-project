@@ -23,12 +23,10 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
     @Override
     @Bean
     public RestHighLevelClient elasticsearchClient() {
-
         final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
             .connectedTo(uris) // 여기부분은 내가 노드로 쓸 포트연걸을 다 해놓는 부분
-            .withBasicAuth(username,password)
+//            .withBasicAuth(username,password)
             .build();
-
         return RestClients.create(clientConfiguration).rest();
     }
 }

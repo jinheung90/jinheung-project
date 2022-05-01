@@ -38,6 +38,7 @@ public class SecurityConfig  {
         http.authorizeExchange().pathMatchers("/user/**").permitAll();
         http.authorizeExchange().pathMatchers("/client/**").permitAll();
         http.authorizeExchange().pathMatchers("/order/**").permitAll();
+        http.authorizeExchange().pathMatchers("/product/**").permitAll();
 //            .exceptionHandling()
 //            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
 //            .accessDeniedHandler(jwtAccessDeniedHandler)

@@ -44,10 +44,8 @@
     shop main
     spring sever port : 8083
     
-    기능 : api로 맨 처음 받는 서비스 shop product, 
-    shop payment 등 에게 카프카로 메세지 날림
-    주문 결제에 관한 메세지를 모두 모아서 mongodb에 저장했다가 
-    all success면 client proxy에 전달 (orchestration)
+    기능 : 아임포트 결제 order verify
+
  
     shop product
     기능 : 재고를 차감하는 서비스
@@ -57,11 +55,11 @@
     shop search 
     기능 : es를 이용한 제품 검색 
     
-    shop payment
-    기능 : 결제기능 아임포트와 연결 
-    아임포트의 검증 시스템 사용하여 문제가 있으면 
-    scheduler를 이용해 재시도
-    아니면 성공과 함께 메세지 
+   # shop payment 아임포트에서 결제를 직접 진행하므로 검증만 남아서 order로 통합
+   # 기능 : 결제기능 아임포트와 연결 
+   # 아임포트의 검증 시스템 사용하여 문제가 있으면 
+   # scheduler를 이용해 재시도
+   # 아니면 성공과 함께 메세지 
 
 ```
 설계도

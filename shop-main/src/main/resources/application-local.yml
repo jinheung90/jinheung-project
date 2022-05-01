@@ -23,6 +23,10 @@ spring:
       #      password: 1234
       authentication-database: admin
       auto-index-creation: true
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    consumer:
+      group-id: consumerGroupId
 server:
   port: 8083
 eureka:
@@ -31,3 +35,7 @@ eureka:
     fetch-registry: true
     service-url:
       default-zone: http://localhost:8761/eureka/
+pay:
+  iamport:
+    rest-key: 5561921923220946
+    rest-secret: f91239836f18f3704ca8adff9cf62de072e2c09981c1b26adb3a19697071cb75d2b21e7be5d853fb

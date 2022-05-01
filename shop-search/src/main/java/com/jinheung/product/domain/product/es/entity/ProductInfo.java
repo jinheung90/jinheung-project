@@ -37,4 +37,11 @@ public class ProductInfo {
 
     @Field
     private Integer stock;
+
+    @Field
+    private Boolean activity;
+
+    public void reduceProduct(int reduce) {
+        stock -= reduce;
+    }
 }

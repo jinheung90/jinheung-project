@@ -34,7 +34,11 @@ subprojects {
         maven { url "https://repo.spring.io/libs-snapshot-local" }
         maven { url "https://repo.spring.io/libs-milestone-local" }
         maven { url "https://repo.spring.io/libs-release-local" }
+        maven { url 'https://jitpack.io' }
     }
+
+
+
 
     dependencyManagement {
         imports {
@@ -118,7 +122,7 @@ project(":shop-payment") {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-        implementation group: 'com.amazonaws', name: 'aws-java-sdk-sqs', version: '1.12.202'
+
         compile project(":common-module")
     }
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum GlobalErrorCode implements IErrorCode {
     BAD_REQUEST("bad request", 400),
+    NOT_EXISTS_ORDER_EVENT("not exists order event", 400)
 
     ;
     private String message;

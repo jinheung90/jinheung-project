@@ -2,7 +2,8 @@ package com.jinheung.project.domain.order.service;
 
 import com.google.gson.Gson;
 import com.jinheung.common.dto.payment.PaymentKafkaDto;
-import com.jinheung.common.dto.product.ReduceStockKafkaData;
+import com.jinheung.common.dto.product.OrderVerifyPayload;
+
 import lombok.AllArgsConstructor;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import com.jinheung.common.event.MsaEvents;
-import com.jinheung.common.dto.kafka.KafkaEventDto;
+
 
 import java.util.UUID;
 
@@ -23,33 +24,22 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderKafkaPublisher {
 
-    private final KafkaTemplate<String, KafkaEventDto> kafkaTemplate;
-
+    private final KafkaTemplate<String, OrderVerifyPayload> reduceStockKafkaDataKafkaTemplate;
+    private final KafkaTemplate<String, PaymentKafkaDto> paymentKafkaDtoKafkaTemplate;
     public boolean orderPublish(
-        String jwt,
-        String userId,
+        String orderId,
         String productId,
         Integer quantity,
+        Long userId,
         Integer price) {
 
-        UUID id = UUID.randomUUID();
+        reduceStockKafkaDataKafkaTemplate.send(MsaEvents.KAFKA_TOPIC_PRODUCT_STOCK_REDUCE,
+            new OrderVerifyPayload(orderId, productId, quantity, price,userId, "")
+        );
 
-        kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_PRODUCT_STOCK_REDUCE,
-            new KafkaEventDto(
-            id.toString(),userId, jwt,
-            new Gson().toJson(
-                new ReduceStockKafkaData(productId, quantity, price),
-                ReduceStockKafkaData.class)
-        ));
-
-//        kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_PAYMENT, new KafkaEventDto(
-//            id.toString(),jwt, new Gson().toJson(
-//                new PaymentKafkaDto(
-//                    userId,
-//                    productId,
-//                    quantity,
-//                    price))
-//        ));
+        //iamport로 인해 deprecated
+//        paymentKafkaDtoKafkaTemplate.send(MsaEvents.KAFKA_TOPIC_PAYMENT, new PaymentKafkaDto(
+//            orderId, productId, quantity, price));
 
         return true;
     }
