@@ -6,10 +6,13 @@ spring:
     host: localhost
   elasticsearch:
     rest:
-#      username: root
-#      password: 1234
-      uris: http://locahlost:9200
-
+      username: elastic
+      password: KeAO-FduoIUj3HsZ5hZ0
+      uris: http://localhost:9200
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    consumer:
+      group-id: consumerGroupId
 server:
   port: 8083
 eureka:
