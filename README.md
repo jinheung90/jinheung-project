@@ -29,7 +29,7 @@
 ### client-proxy 
 
 ```
-    spring server port : 8084
+    spring server port : 8083
     
     기능: kafka에서 보낸 여러 이벤트 들을 받아서 websocket으로 
     유저에게 전달 (ex 재고가 부족해요!, 잔액이 부족해요!)
@@ -42,17 +42,17 @@
 
 ```
     shop main
-    spring sever port : 8083
+    spring sever port : 8084
     
     기능 : 아임포트 결제 order verify
 
  
-    shop product
+    shop product 8085
     기능 : 재고를 차감하는 서비스
     재고가 없으면 메세지를 날린다
     재고의 수를 shop search와 동기화 시킨다 
     
-    shop search 
+    shop search 8086
     기능 : es를 이용한 제품 검색 
     
    # shop payment 아임포트에서 결제를 직접 진행하므로 검증만 남아서 order로 통합
@@ -65,3 +65,6 @@
 설계도
 
 ![](포트폴리오.png)
+
+결제 시스템
+![](결제_다이어그램.jpg)

@@ -3,7 +3,8 @@ package com.jinheung.project.domain.order.controller;
 import com.jinheung.project.domain.order.dto.OrderRequest;
 import com.jinheung.project.domain.order.mongo.doc.OrderEvent;
 import com.jinheung.project.domain.order.service.OrderKafkaPublisher;
-import com.jinheung.project.domain.order.service.OrderService;
+
+import com.jinheung.project.domain.order.service.PaymentService;
 import com.jinheung.project.errorHandling.customRuntimeException.RuntimeExceptionWithCode;
 import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import static com.jinheung.common.consts.AuthHeaderNames.USER_ID;
 public class OrderController {
 
     private final OrderKafkaPublisher orderKafkaPublisher;
-    private final OrderService orderService;
+    private final PaymentService paymentService;
 
     @PostMapping("/order/verify")
     public ResponseEntity getUserAuthority(
@@ -30,7 +31,7 @@ public class OrderController {
         @RequestHeader(name = ACCESS_TOKEN_HEADER) String jwt,
         @RequestHeader(name = USER_ID) Long userId
         ) {
-        Payment payment = orderService.verifyPayment(
+        Payment payment = paymentService.verifyPayment(
             userId,
             orderRequest.getProductId(),
             orderRequest.getImpUid(),

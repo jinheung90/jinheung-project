@@ -19,13 +19,13 @@ import static com.jinheung.common.event.MsaEvents.KAFKA_TOPIC_CLIENT_PROXY_ORDER
 @RequiredArgsConstructor
 public class OrderFailureKafkaListener {
     private final KafkaTemplate<String, FromOrderPayload> template;
-    private final OrderService orderService;
+    private final PaymentService paymentService;
 
     @KafkaListener(topics = KAFKA_TOPIC_CLIENT_PROXY_ORDER_FAILURE)
     public void onOrderFailure(@Payload OrderVerifyPayload data) {
-        orderService.saveFailureOrderEvent(data.getOrderId(), data.getMessage());
         template.send(MsaEvents.KAFKA_ORDER_CLIENT_PROXY, new FromOrderPayload(
             data.getUserId(),data.getOrderId(),data.getMessage()
         ));
+        paymentService.saveFailureOrderEvent(data.getOrderId(), data.getMessage());
     }
 }

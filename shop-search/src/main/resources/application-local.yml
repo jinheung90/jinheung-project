@@ -14,7 +14,7 @@ spring:
     consumer:
       group-id: consumerGroupId
 server:
-  port: 8083
+  port: 8086
 eureka:
   client:
     service-url:

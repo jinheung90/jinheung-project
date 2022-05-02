@@ -28,7 +28,7 @@ spring:
     consumer:
       group-id: consumerGroupId
 server:
-  port: 8083
+  port: 8084
 eureka:
   client:
     register-with-eureka: true
