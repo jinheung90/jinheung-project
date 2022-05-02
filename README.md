@@ -3,13 +3,10 @@
 ### jinheung-api-gateway
 
 ```
-
      spring server port : 8081
      
      기능 : 글로벌 인증 필터 
      헤더에 파싱된 유저아이디, 유저롤을 넣어줍니다
-     
-     
 ```
 
 ### jinheung-euraka-server
@@ -41,12 +38,9 @@
 ### jinheung-shop
 
 ```
-    shop main
-    spring sever port : 8084
-    
-    기능 : 아임포트 결제 order verify
+    shop main 8084
+    기능 : 아임포트 결제 pay verify
 
- 
     shop product 8085
     기능 : 재고를 차감하는 서비스
     재고가 없으면 메세지를 날린다
@@ -54,17 +48,12 @@
     
     shop search 8086
     기능 : es를 이용한 제품 검색 
-    
-   # shop payment 아임포트에서 결제를 직접 진행하므로 검증만 남아서 order로 통합
-   # 기능 : 결제기능 아임포트와 연결 
-   # 아임포트의 검증 시스템 사용하여 문제가 있으면 
-   # scheduler를 이용해 재시도
-   # 아니면 성공과 함께 메세지 
+
 
 ```
 설계도
 
-![](포트폴리오.png)
+![](전체_구조.jpg)
 
 결제 시스템
 ![](결제_다이어그램.jpg)

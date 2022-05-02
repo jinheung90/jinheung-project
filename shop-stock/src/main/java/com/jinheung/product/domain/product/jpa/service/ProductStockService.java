@@ -1,8 +1,8 @@
 package com.jinheung.product.domain.product.jpa.service;
 
 import com.jinheung.common.event.ClientEventTopics;
-import com.jinheung.product.errorHandling.customRuntimeException.RuntimeExceptionWithCode;
-import com.jinheung.product.domain.product.jpa.entity.ProductStock;
+import com.jinheung.product.domain.product.jpa.entity.ProductInfo;
+
 import com.jinheung.product.domain.product.jpa.repository.ProductStockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -18,8 +18,8 @@ public class ProductStockService {
 //    private final KafkaTemplate<String, ClientEventTopics>
 
     @Transactional
-    public ProductStock reduceProductStock(String productId, Integer reduceCount) {
-        ProductStock productStock = productStockRepository.findFirstByProductId(productId);
+    public ProductInfo reduceProductStock(String productId, Integer reduceCount) {
+        ProductInfo productStock = productStockRepository.findFirstByProductId(productId);
 
         boolean updateStock = productStock.reduceStock(reduceCount);
         if(updateStock) {
