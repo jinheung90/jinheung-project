@@ -10,4 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AsyncProductInfoPayload {
+    private Long productId;
+    private Integer price;
+    private Integer stock;
+    private String name;
+    private String detail;
 }

@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/stock/**").permitAll()
+                .antMatchers("/product/**").permitAll()
 
                 .and().cors().disable();
         http.cors().configurationSource(this.corsConfigurationSource());

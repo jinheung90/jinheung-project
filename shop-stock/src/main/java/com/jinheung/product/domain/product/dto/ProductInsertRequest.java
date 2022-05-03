@@ -11,4 +11,6 @@ public class ProductInsertRequest {
     private Long productId;
     private Integer price;
     private Integer stock;
+    private String name;
+    private String detail;
 }

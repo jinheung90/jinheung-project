@@ -20,10 +20,10 @@ public class ProductInfo {
     @Id
     private String Id;
 
-    @Field
+    @Field(analyzer = "korean")
     private String name;
 
-    @Field
+    @Field(analyzer = "korean")
     private String detail;
 
     @Field

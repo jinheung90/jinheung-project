@@ -12,10 +12,14 @@ spring:
         uri: http://localhost:8083
         predicates:
           - Path=/order/**
-      - id: shop-search
+      - id: shop-stock
         uri: http://localhost:8085
         predicates:
-          - Path=/search/**
+          - Path=/product/**
+      - id: shop-search
+        uri: http://localhost:8086
+        predicates:
+          - Path=/product/**
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
         - AuthFilterFactory

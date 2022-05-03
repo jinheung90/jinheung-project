@@ -8,25 +8,26 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
-@Table(name = "product_stocks")
+@Table(name = "product_infos")
 @Entity
-
+@Setter
 public class ProductInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_stocks")
+    @Column(name = "product_info_id")
     private Long id = null;
 
-    @Column(name = "product_id")
-    private String productId;
+//    @Column(name = "product_id")
+//    private String productId;
 
     @Column(name = "stock_count")
     private Integer stockCount;
 
-    @Column(name = "order_id")
-    private String orderId;
-
+    @Column
+    private String name;
+    @Column
+    private String detail;
     @Column
     private Integer price;
 
@@ -38,6 +39,7 @@ public class ProductInfo {
             return false;
         } else return true;
     }
+
 
 
 }
