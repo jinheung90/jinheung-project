@@ -29,12 +29,12 @@ public class OrderFailureKafkaListener {
 //        ));
 //        paymentService.saveFailureOrderEvent(data.getOrderId(), data.getMessage());
 //    }
-
-    @KafkaListener(topics = KAFKA_TOPIC_CANCEL_PAYMENT)
-    public void onCancelPayment(@Payload OrderVerifyPayload data) {
-        template.send(MsaEvents.KAFKA_ORDER_CLIENT_PROXY, new FromOrderPayload(
-            data.getUserId(),data.getOrderId(),data.getMessage()
-        ));
-        paymentService.saveFailureOrderEvent(data.getOrderId(), data.getMessage());
-    }
+//
+//    @KafkaListener(topics = KAFKA_TOPIC_CANCEL_PAYMENT)
+//    public void onCancelPayment(@Payload OrderVerifyPayload data) {
+//        template.send(MsaEvents.KAFKA_ORDER_CLIENT_PROXY, new FromOrderPayload(
+//            data.getUserId(),data.getOrderId(),data.getMessage()
+//        ));
+//        paymentService.saveFailureOrderEvent(data.getOrderId(), data.getMessage());
+//    }
 }

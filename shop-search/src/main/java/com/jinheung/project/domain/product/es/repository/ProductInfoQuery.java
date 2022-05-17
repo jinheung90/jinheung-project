@@ -24,13 +24,13 @@ public class ProductInfoQuery {
 
     public SearchHits<ProductInfo> searchProductByQuery(String query, Pageable pageable) {
         Query searchQuery = new NativeSearchQueryBuilder()
-            .withQuery(boolQuery().should(termsQuery("name", query)).boost(2.f))
-            .withQuery(boolQuery().should(termsQuery("detail", query)))
+            .withQuery(boolQuery().should(matchQuery("name", query)).boost(2.f))
+            .withQuery(boolQuery().should(matchQuery("detail", query)))
             .withFilter(matchQuery("activity",true))
-            .withSort(SortBuilders.fieldSort("updatedAt").order(SortOrder.DESC))
+//            .withSort(SortBuilders.fieldSort("updated_at").order(SortOrder.DESC))
             .withPageable(pageable)
             .build();
 
-        return elasticsearchRestTemplate.search(searchQuery, ProductInfo.class, IndexCoordinates.of("mentor_profiles"));
+        return elasticsearchRestTemplate.search(searchQuery, ProductInfo.class, IndexCoordinates.of("products_infos"));
     }
 }

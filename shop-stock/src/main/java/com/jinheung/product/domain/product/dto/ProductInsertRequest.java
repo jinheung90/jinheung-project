@@ -13,4 +13,5 @@ public class ProductInsertRequest {
     private Integer stock;
     private String name;
     private String detail;
+    private Boolean activity;
 }

@@ -2,6 +2,7 @@ package com.jinheung.project.domain.order.service;
 
 import com.google.gson.Gson;
 import com.jinheung.common.dto.payment.PaymentKafkaDto;
+import com.jinheung.common.dto.product.OrderHasProductDto;
 import com.jinheung.common.dto.product.OrderVerifyPayload;
 
 import lombok.AllArgsConstructor;
@@ -18,23 +19,24 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import com.jinheung.common.event.MsaEvents;
 
 
+import java.util.Set;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class OrderKafkaPublisher {
 
-    private final KafkaTemplate<String, OrderVerifyPayload> reduceStockKafkaDataKafkaTemplate;
-    private final KafkaTemplate<String, PaymentKafkaDto> paymentKafkaDtoKafkaTemplate;
-    public boolean orderPublish(
-        String orderId,
-        String productId,
-        Integer quantity,
-        Long userId,
-        Integer price) {
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-        reduceStockKafkaDataKafkaTemplate.send(MsaEvents.KAFKA_TOPIC_PRODUCT_STOCK_REDUCE,
-            new OrderVerifyPayload(orderId, productId, quantity, price,userId, "")
+    public boolean orderPublish(
+        String impUid,
+        Set<OrderHasProductDto> orderHasProductDtoSet,
+        Long userId
+     ) {
+
+        kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_PRODUCT_STOCK_REDUCE,
+           new Gson().toJson(new OrderVerifyPayload(impUid, orderHasProductDtoSet, userId, ""),
+               OrderVerifyPayload.class)
         );
 
         //iamport로 인해 deprecated

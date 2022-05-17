@@ -26,7 +26,7 @@ spring:
   kafka:
     bootstrap-servers: 127.0.0.1:9092
     consumer:
-      group-id: consumerGroupId
+      group-id: orderServiceGroup
 server:
   port: 8084
 eureka:

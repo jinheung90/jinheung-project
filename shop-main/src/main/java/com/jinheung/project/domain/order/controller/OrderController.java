@@ -1,7 +1,9 @@
 package com.jinheung.project.domain.order.controller;
 
 import com.jinheung.project.domain.order.dto.OrderRequest;
-import com.jinheung.project.domain.order.mongo.doc.OrderEvent;
+
+import com.jinheung.project.domain.order.jpa.entity.Order;
+import com.jinheung.project.domain.order.jpa.service.OrderService;
 import com.jinheung.project.domain.order.service.OrderKafkaPublisher;
 
 import com.jinheung.project.domain.order.service.PaymentService;
@@ -24,6 +26,7 @@ public class OrderController {
 
     private final OrderKafkaPublisher orderKafkaPublisher;
     private final PaymentService paymentService;
+    private final OrderService orderService;
 
     @PostMapping("/order/verify")
     public ResponseEntity getUserAuthority(
@@ -31,21 +34,8 @@ public class OrderController {
         @RequestHeader(name = ACCESS_TOKEN_HEADER) String jwt,
         @RequestHeader(name = USER_ID) Long userId
         ) {
-        Payment payment = paymentService.verifyPayment(
-            userId,
-            orderRequest.getProductId(),
-            orderRequest.getImpUid(),
-            orderRequest.getQuantity(),
-            orderRequest.getPrice()
-        );
-
-        orderKafkaPublisher.orderPublish(
-            orderRequest.getImpUid(),
-            orderRequest.getProductId(),
-            orderRequest.getQuantity(),
-            userId,
-            orderRequest.getPrice()
-        );
+        Order order = orderService.saveOrder(orderRequest.getImpUid(), orderRequest.getOrderHasProducts());
+        orderKafkaPublisher.orderPublish(orderRequest.getImpUid(), orderRequest.getOrderHasProducts(), userId);
         return ResponseEntity.ok("get ");
     }
 
@@ -53,5 +43,6 @@ public class OrderController {
     public ResponseEntity test() {
         return ResponseEntity.ok("B");
     }
+
 
 }

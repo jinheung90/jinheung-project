@@ -7,12 +7,12 @@ spring:
   elasticsearch:
     rest:
       username: elastic
-      password: KeAO-FduoIUj3HsZ5hZ0
+      password: iCIphDw2dxBsPsttwaYC
       uris: http://localhost:9200
   kafka:
     bootstrap-servers: 127.0.0.1:9092
     consumer:
-      group-id: consumerGroupId
+      group-id: searchProductGroupId
 server:
   port: 8086
 eureka:

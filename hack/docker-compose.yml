@@ -16,8 +16,8 @@ services:
       ZOO_PORT: 2181
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181
     volumes:
-      - ./Users/beni/kafka/zoo1/data:/data
-      - ./Users/beni/kafka/zoo1/datalog:/datalog
+      - ./Users/beni/kafka/zoo1/data
+      - ./Users/beni/kafka/zoo1/datalog
   kafka1:
     image: confluentinc/cp-kafka:6.1.1
     hostname: kafka1
@@ -37,7 +37,7 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_LOG_RETENTION_HOURS: 24
     volumes:
-      - ./usr/kafka/kafka1/data:/var/lib/kafka/data
+      - ./usr/kafka/kafka1/data
     depends_on:
       - zoo1
   kafka2:
@@ -59,7 +59,7 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_LOG_RETENTION_HOURS: 24
     volumes:
-      - ./usr/kafka/kafka2/data:/var/lib/kafka/data
+      - ./usr/kafka/kafka2/data
     depends_on:
       - zoo1
 
@@ -82,7 +82,7 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_LOG_RETENTION_HOURS: 24
     volumes:
-      - ./usr/kafka/kafka3/data:/var/lib/kafka/data
+      - ./usr/kafka/kafka3/data
     depends_on:
       - zoo1
 

@@ -5,14 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
 
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderVerifyPayload {
-    private String orderId;
-    private String productId;
-    private Integer reduceCount = 0;
-    private Integer price;
+    private String impUid;
+    private Set<OrderHasProductDto> orderHasProductDtoList;
     private Long userId;
     private String message;
 

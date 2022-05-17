@@ -1,5 +1,6 @@
-package com.jinheung.product.domain.product.jpa.entity;
+package com.jinheung.project.domain.order.jpa.entity;
 
+import io.swagger.models.auth.In;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,37 +12,33 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
-@Table(name = "product_infos")
+@Table(name = "cart_has_products")
 @Entity
 @Setter
-public class ProductInfo {
-
+public class CartHasProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_info_id")
+    @Column(name = "cart_has_product_id")
     private Long id = null;
-    @Column(name = "stock_count")
-    private Integer stockCount;
+
     @Column
-    private String name;
-    @Column
-    private String detail;
-    @Column
-    private Integer price;
-    @Column
-    private Boolean activity;
+    private Integer quantity;
+
+    @Column(name = "product_id")
+    private Long productId;
+
+    @Column(name = "user_id")
+    private Long userId;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
+
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public boolean reduceStock(int count) {
-        stockCount -= count;
-        if(stockCount < 0) {
-            stockCount += count;
-            return false;
-        } else return true;
+    public void addQuantity(Integer quantity) {
+        this.quantity += quantity;
     }
 }

@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface ProductInfoRepository extends ElasticsearchRepository<ProductInfo, String> {
 //    Optional<ProductInfo> findFirstByActivityIsTrueAndId(String id);
+    ProductInfo findFirstByProductId(Long id);
 }

@@ -1,19 +1,21 @@
 package com.jinheung.common.dto.product;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AsyncProductInfoPayload {
+public class OrderHasProductDto {
+    @NotNull
     private Long productId;
+    @NotNull
     private Integer price;
-    private Integer stock;
-    private String name;
-    private String detail;
-    private Boolean activity;
+    @NotNull
+    private Integer quantity;
 }

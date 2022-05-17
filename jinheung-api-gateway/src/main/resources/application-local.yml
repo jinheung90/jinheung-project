@@ -19,7 +19,7 @@ spring:
       - id: shop-search
         uri: http://localhost:8086
         predicates:
-          - Path=/product/**
+          - Path=/search/**
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
         - AuthFilterFactory

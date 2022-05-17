@@ -1,5 +1,6 @@
 package com.jinheung.product.domain.product.jpa.service;
 
+import com.jinheung.common.dto.product.OrderHasProductDto;
 import com.jinheung.product.domain.product.jpa.entity.ProductInfo;
 
 import com.jinheung.product.domain.product.jpa.repository.ProductInfoRepository;
@@ -9,7 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,23 +22,46 @@ public class ProductInfoService {
     private final ProductInfoRepository productInfoRepository;
 //    private final KafkaTemplate<String, ClientEventTopics>
 
-    @Transactional
-    public ProductInfo reduceProductStock(Long productId, Integer reduceCount) {
-        ProductInfo productInfo = productInfoRepository.findById(productId)
-            .orElseThrow(() -> new RuntimeExceptionWithCode(GlobalErrorCode.NOT_EXISTS_PRODUCT));
 
-        boolean updateStock = productInfo.reduceStock(reduceCount);
-        if(updateStock) {
-           return productInfoRepository.save(productInfo);
-        }
+    @Transactional
+    public String reduceProductStock(Set<OrderHasProductDto> orderHasProductDtoSet) {
+        HashMap<Long, ProductInfo> productInfoMap = new HashMap<>();
+        productInfoRepository.findAllByIdIn(
+            orderHasProductDtoSet.stream().map(OrderHasProductDto::getProductId).collect(Collectors.toList()))
+            .forEach(productInfo -> productInfoMap.put(productInfo.getId(), productInfo));
+        Boolean fitAmountWithStock = false;
+        orderHasProductDtoSet.forEach(
+            orderHasProductDto -> {
+                ProductInfo productInfo = productInfoMap.get(orderHasProductDto.getProductId());
+//                if(productInfo == null) {
+//                    String.format()
+//                }
+//
+//                if()
+            }
+        );
+
         return null;
+
+
+//
+//        if(!price.equals(productInfo.getPrice())) {
+//            return "not match price";
+//        }
+//        boolean updateStock = productInfo.reduceStock(reduceCount);
+//        if(!updateStock) {
+//            return "stock is empty";
+//        }
+//        productInfoRepository.save(productInfo);
+//        return "success";
     }
     public ProductInfo saveProductInfo(
         Long productId,
         String name,
         String detail,
         Integer price,
-        Integer stock
+        Integer stock,
+        Boolean activity
     ) {
         ProductInfo productInfo = null;
         if(productId == null) {
@@ -47,6 +75,11 @@ public class ProductInfoService {
         productInfo.setDetail(detail);
         productInfo.setPrice(price);
         productInfo.setStockCount(stock);
+        productInfo.setActivity(activity);
         return productInfoRepository.save(productInfo);
+    }
+
+    public List<ProductInfo> findByIds(List<Long> ids) {
+        return productInfoRepository.findAllByIdIn(ids);
     }
 }

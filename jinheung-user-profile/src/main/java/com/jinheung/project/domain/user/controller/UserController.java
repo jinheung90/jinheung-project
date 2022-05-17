@@ -38,7 +38,6 @@ public class UserController {
         if (!StringUtils.hasText(bearerToken) || !bearerToken.startsWith("Bearer ")) {
             return ResponseEntity.ok(null);
         }
-        log.info("test");
 
         bearerToken = bearerToken.substring(7);
 

@@ -1,39 +1,41 @@
 package com.jinheung.project.domain.product.es.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.Setting;
+import org.springframework.data.elasticsearch.annotations.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Setter
 @Document(indexName = "products_infos")
 @Setting(settingPath = "es/setting/nori.json")
 public class ProductInfo {
 
     @Id
+    @Field
     private String Id;
+    @Field(name = "product_id", type = FieldType.Long)
+    private Long productId;
 
-    @Field(analyzer = "korean")
+    @Field(analyzer = "korean", type = FieldType.Text)
     private String name;
 
-    @Field(analyzer = "korean")
+    @Field(analyzer = "korean", type = FieldType.Text)
     private String detail;
 
     @Field
     private Integer price;
 
-    @Field(name = "create_at")
-    private Date createdAt;
+    @Field(type = FieldType.Date, format = DateFormat.custom, name = "created_at", pattern = "uuuu-MM-dd'T'HH:mm:ss.SSS")
+    private LocalDateTime createdAt;
 
-    @Field(name = "updated_at")
-    private Date updatedAt;
+    @Field(type = FieldType.Date, format = DateFormat.custom, name = "updated_at", pattern = "uuuu-MM-dd'T'HH:mm:ss.SSS")
+    private LocalDateTime updatedAt;
 
     @Field
     private Integer stock;
