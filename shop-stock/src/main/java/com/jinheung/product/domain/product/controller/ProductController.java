@@ -1,13 +1,12 @@
 package com.jinheung.product.domain.product.controller;
 
 import com.google.gson.Gson;
-import com.jinheung.common.consts.AuthHeaderNames;
-import com.jinheung.common.dto.auth.UserRole;
+
 import com.jinheung.common.dto.product.AsyncProductInfoPayload;
 import com.jinheung.common.dto.product.ProductInfoDto;
 import com.jinheung.common.event.MsaEvents;
 import com.jinheung.product.domain.product.dto.ProductInsertRequest;
-import com.jinheung.product.domain.product.jpa.entity.ProductInfo;
+
 import com.jinheung.product.domain.product.jpa.service.ProductInfoService;
 
 import lombok.RequiredArgsConstructor;
