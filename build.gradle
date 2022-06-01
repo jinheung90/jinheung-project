@@ -117,15 +117,6 @@ project(":shop-stock") {
     }
 }
 
-project(":shop-payment") {
-    dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
-        compile project(":common-module")
-    }
-}
 
 project(":client-proxy") {
     dependencies {
