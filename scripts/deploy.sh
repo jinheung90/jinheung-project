@@ -1,35 +1,45 @@
-#!/bin/bash
-BUILD_PATH=$(ls /opt/app/build/libs/*.jar)
-JAR_NAME=$(basename $BUILD_PATH)
-echo "> build 파일명: $JAR_NAME"
+#!/usr/bin/env bash
 
-echo "> build 파일 복사"
-DEPLOY_PATH=/home/ec2-user/
-cp $BUILD_PATH $DEPLOY_PATH
+PROFILE_FILE="/opt/yaml/profile.txt"
 
-echo "> springboot-deploy.jar 교체"
-CP_JAR_PATH=$DEPLOY_PATH$JAR_NAME
-APPLICATION_JAR_NAME=springboot-deploy.jar
-APPLICATION_JAR=$DEPLOY_PATH$APPLICATION_JAR_NAME
 
-ln -Tfs $CP_JAR_PATH $APPLICATION_JAR
 
-echo "> 현재 실행중인 애플리케이션 pid 확인"
-CURRENT_PID=$(pgrep -f $APPLICATION_JAR_NAME)
-
-if [ -z $CURRENT_PID ]
-then
-  echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
-else
-  echo "> sudo kill -15 $CURRENT_PID"
-  sudo kill -15 $CURRENT_PID
-  sleep 5
+if [ ! -d "/opt/yaml" ]; then
+  sudo mkdir /opt
+  sudo mkdir /opt/yaml
 fi
 
-sudo fuser -k 8081/tcp
+if [ ! -d "/logs/gateway" ]; then
+  sudo mkdir /logs
+  sudo mkdir /logs/client
+  sudo mkdir /logs/gateway
+  sudo mkdir /logs/eureka
 
-echo "> $APPLICATION_JAR 배포"
-sudo nohup java -jar \
-    -Dspring.config.location=/opt/yaml/application-real.yaml \
-    -Dspring.profiles.active=real \
-    $APPLICATION_JAR > /dev/null 2> /dev/null < /dev/null &
+fi
+
+sudo chmod -R 777 /opt/yaml/
+sudo chmod -R 777 /logs
+# Code deploy can not inject environment variables
+# So, profile should be checked in deploy script
+# test server is only one and develop deploy is changed
+if [ "$APPLICATION_NAME" == "cloud-gateway" ]; then
+  APPLICATION_JAR_NAME=springboot-deploy.jar
+  APP_JAR_NEW=jinheung-api-gateway-1.0.1.jar
+  DEPLOY_PATH="/home/ec2-user/"
+  BUILD_DIR="/opt/app/user/jinhueng-api-gateway/build/libs/" # 바뀐 지점
+  BUILD_FILEPATH=$BUILD_DIR$APP_JAR_NEW
+  APPLICATION_JAR=$DEPLOY_PATH$APPLICATION_JAR_NAME
+  STDOUT=/logs/user/stdout.log
+  STDERR=/logs/user/stderr.log
+  SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8081"
+  sudo nohup java -jar $SPRING_OPTIONS $APPLICATION_JAR 1>>$STDOUT 2>>$STDERR &
+#
+#  BUILD_DIR="/opt/app/client/jinhueng-eureka-server/build/libs/"
+#  SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8082"
+#  sudo nohup java -jar $SPRING_OPTIONS $APPLICATION_JAR 1>>$STDOUT 2>>$STDERR &
+#
+#  BUILD_DIR="/opt/app/shop-main/jinhueng-eureka-server/build/libs/"
+#  SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8084"
+#  sudo nohup java -jar $SPRING_OPTIONS $APPLICATION_JAR 1>>$STDOUT 2>>$STDERR &
+
+fi
