@@ -31,7 +31,7 @@ if [ "$APPLICATION_NAME" == "cloud-gateway" ]; then
   APPLICATION_JAR=$DEPLOY_PATH$APPLICATION_JAR_NAME
   STDOUT=/logs/gateway/stdout.log
   STDERR=/logs/gateway/stderr.log
-  SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8081"
+  SPRING_OPTIONS="-Dspring.profiles.active=prod -Dserver.port=8081"
   sudo nohup java -jar $SPRING_OPTIONS $APPLICATION_JAR 1>>$STDOUT 2>>$STDERR &
 #
 #  BUILD_DIR="/opt/app/client/jinhueng-eureka-server/build/libs/"
