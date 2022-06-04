@@ -2,7 +2,7 @@
 <configuration>
 	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
 	<include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-	<springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
+
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -17,7 +17,7 @@
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logsstdout.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>/logs/stdout.%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
@@ -32,7 +32,7 @@
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logs/stderr.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>/logs/stderr.%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
@@ -48,14 +48,11 @@
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>./stdout.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>/logs/stdout.%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
 
-	<appender name="LOCAL_OUT_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-		<appender-ref ref="LOCAL_OUT" />
-	</appender>
 
 	<appender name="LOCAL_ERR" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -67,20 +64,33 @@
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>./stderr.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>./logs/stdout.%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
+
+	<appender name="LOCAL_OUT_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="LOCAL_OUT" />
+	</appender>
+
 	<appender name="LOCAL_ERR_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
 		<appender-ref ref="LOCAL_ERR" />
 	</appender>
 
+	<appender name="STD_OUT_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="STDOUT" />
+	</appender>
+
+	<appender name="STD_ERR_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="STDERR" />
+	</appender>
+
 	<springProfile name="prod">
 		<logger name="com.jinheung.project" level="INFO" additivity="true">
-			<appender-ref ref="STDOUT" />
+			<appender-ref ref="STD_OUT_ASYNC" />
 		</logger>
 		<root level="INFO">
-			<appender-ref ref="STDERR" />
+			<appender-ref ref="LOCAL_ERR_ASYNC" />
 		</root>
 
 	</springProfile>
