@@ -1,8 +1,7 @@
-
 <configuration>
 	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
 	<include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-	<springProperty name="SLACK_WEBHOOK_URI" source="logging.slack.webhook-uri"/>
+
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -10,14 +9,15 @@
 		</encoder>
 	</appender>
 
+
 	<appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-<!--		<target>System.out</target>-->
+		<!--		<target>System.out</target>-->
 		<encoder>
 			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logs/eureka/stdout.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>/logs/user/stdout.%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
@@ -26,32 +26,14 @@
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>WARN</level>
 		</filter>
-<!--		<target>System.err</target>-->
 		<encoder>
 			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logs/eureka/stderr.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>/logs/user/stderr.%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
-	</appender>
-
-	<!-- slack-->
-	<appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
-		<webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg %n</pattern>
-		</layout>
-		<username>Server-log</username>
-		<colorCoding>true</colorCoding>
-	</appender>
-
-	<appender name="ASYNC_SLACK" class="ch.qos.logback.classic.AsyncAppender">
-		<appender-ref ref="SLACK"/>
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>ERROR</level>
-		</filter>
 	</appender>
 
 
@@ -63,7 +45,7 @@
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>./stdout.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>./stdout.%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
@@ -73,12 +55,12 @@
 			<level>ERROR</level>
 		</filter>
 		<!--		<target>System.err</target>-->
-		<encoder>
-			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
-			<charset>${CONSOLE_LOG_CHARSET}</charset>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
+			<!--			<jsonGeneratorDecorator class="kr.co.eda.kbn.logback.PrettyPrintingDecorator"/>-->
+			<!--			<jsonFactoryDecorator class="kr.co.eda.kbn.logback.ISO8601DateDecorator"/>-->
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>./stderr.log.%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>./stderr.st%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
@@ -91,9 +73,7 @@
 		<root level="INFO">
 			<appender-ref ref="STDERR" />
 		</root>
-		<root level="ERROR">
-			<appender-ref ref="ASYNC_SLACK"/>
-		</root>
+
 	</springProfile>
 
 
@@ -116,5 +96,6 @@
 		<root level="INFO">
 			<appender-ref ref="STDERR" />
 		</root>
+
 	</springProfile>
 </configuration>
