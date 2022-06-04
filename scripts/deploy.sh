@@ -21,7 +21,7 @@ sudo chmod -R 777 /logs
 # Code deploy can not inject environment variables
 # So, profile should be checked in deploy script
 # test server is only one and develop deploy is changed
-if [ "$APPLICATION_NAME" == "cloud-gateway" ]; then
+if [ "$APPLICATION_NAME" == "gateway" ]; then
 awestgawsegawegr
   #testawawet
   APPLICATION_JAR_NAME=springboot-deploy.jar
