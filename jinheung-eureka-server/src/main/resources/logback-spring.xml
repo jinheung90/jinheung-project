@@ -17,7 +17,7 @@
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logs/user/stdout.%d{yyyy-MM-dd}.json</fileNamePattern>
+			<fileNamePattern>/logs/stdout.%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
@@ -31,7 +31,7 @@
 			<charset>${CONSOLE_LOG_CHARSET}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/logs/user/stderr.%d{yyyy-MM-dd}.json</fileNamePattern>
+			<fileNamePattern>/logs/stderr.%d{yyyy-MM-dd}.json</fileNamePattern>
 			<maxHistory>90</maxHistory>
 		</rollingPolicy>
 	</appender>
