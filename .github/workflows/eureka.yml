@@ -1,0 +1,63 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+#
+name: CI
+
+on:
+  push:
+    branches: "eureka/release/**"
+jobs:
+  build:
+    name: DEPLOY
+    runs-on: ubuntu-latest
+    #    strategy:
+    #      matrix:
+    #        redis-version: [ 6 ]
+    #        mysql-version: [8.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
+      - name: Build with Gradle
+        run: ./gradlew build
+        shell: bash
+
+      - name: delete main jar
+        run: rm -r ./jinheung-eureka-server/build/libs/jinheung-eureka-server-1.0.1.jar
+        shell: bash
+      - name: create main boot jar
+        run: ./gradlew bootJar -p ./jinheung-eureka-server
+        shell: bash
+      - name: pos change
+        run: mv ./jinheung-eureka-server/build/libs/jinheung-eureka-server-1.0.1.jar ./deploy.jar
+        shell: bash
+
+      - name: Cleanup Gradle Cache
+        # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
+        # Restoring these files from a GitHub Actions cache might cause problems for future builds.
+        if: ${{ always() }}
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
+        #GITHUB_SHA 랜덤으로 생성되는 이름(암호화)
+      - name: Make zip file
+        run: zip -qq -r ./$GITHUB_SHA.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://jinheung-project/$PROJECT_NAME/$GITHUB_SHA.zip
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name eureka --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name eureka-group --s3-location bucket=jinheung-project,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
