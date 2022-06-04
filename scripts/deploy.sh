@@ -27,14 +27,14 @@ sudo chmod -R 775 /logs
 
 APP_JAR_NEW=deploy.jar
 BUILD_DIR="/opt/app/" # 바뀐 지점
-DEPLOY_PATH_AND_JAR="/home/ec2-user/deploy.jar"
+#DEPLOY_PATH_AND_JAR="/home/ec2-user/deploy.jar"
 BUILD_FILEPATH=$BUILD_DIR$APP_JAR_NEW
-sudo mv BUILD_FILEPATH DEPLOY_PATH_AND_JAR
+#sudo mv BUILD_FILEPATH DEPLOY_PATH_AND_JAR
 STDOUT=/logs/gateway/stdout.log
 STDERR=/logs/gateway/stderr.log
 SPRING_OPTIONS="-Dspring.profiles.active=prod -Dserver.port=8081"
 sudo fuser -k 8081/tcp
-sudo nohup java -jar $SPRING_OPTIONS DEPLOY_PATH_AND_JAR 1>>$STDOUT 2>> $STDERR &
+sudo nohup java -jar $SPRING_OPTIONS BUILD_FILEPATH 1>>$STDOUT 2>> $STDERR &
 #
 #  BUILD_DIR="/opt/app/client/jinhueng-eureka-server/build/libs/"
 #  SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8082"
