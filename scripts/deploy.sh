@@ -34,7 +34,7 @@ STDOUT=/logs/stdout.log
 STDERR=/logs/stderr.log
 SPRING_OPTIONS="-Dspring.profiles.active=prod -Dserver.port=8081"
 sudo fuser -k 8081/tcp
-sudo nohup java -jar $SPRING_OPTIONS BUILD_FILEPATH 1>>$STDOUT 2>> $STDERR &
+sudo nohup java -jar $SPRING_OPTIONS $BUILD_FILEPATH 1>>$STDOUT 2>> $STDERR &
 #
 #  BUILD_DIR="/opt/app/client/jinhueng-eureka-server/build/libs/"
 #  SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8082"
