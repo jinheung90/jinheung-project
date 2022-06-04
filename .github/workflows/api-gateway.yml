@@ -36,7 +36,7 @@ jobs:
         run: ./gradlew bootJar -p ./jinheung-api-gateway
         shell: bash
       - name: pos change
-        run: mv ./jinheung-api-gateway/build/libs/jinheung-api-gateway-1.0.1.jar ./deloy.jar
+        run: mv ./jinheung-api-gateway/build/libs/jinheung-api-gateway-1.0.1.jar ./deploy.jar
         shell: bash
 
       - name: Cleanup Gradle Cache
