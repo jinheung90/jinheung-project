@@ -30,8 +30,8 @@ BUILD_DIR="/opt/app/" # 바뀐 지점
 #DEPLOY_PATH_AND_JAR="/home/ec2-user/deploy.jar"
 BUILD_FILEPATH=$BUILD_DIR$APP_JAR_NEW
 #sudo mv BUILD_FILEPATH DEPLOY_PATH_AND_JAR
-STDOUT=/logs/gateway/stdout.log
-STDERR=/logs/gateway/stderr.log
+STDOUT=/logs/eureka/stdout.log
+STDERR=/logs/eureka/stderr.log
 SPRING_OPTIONS="-Dspring.profiles.active=prod -Dserver.port=8081"
 sudo fuser -k 8081/tcp
 sudo nohup java -jar $SPRING_OPTIONS BUILD_FILEPATH 1>>$STDOUT 2>> $STDERR &
