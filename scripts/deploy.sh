@@ -21,18 +21,18 @@ sudo chmod -R 777 /logs
 # Code deploy can not inject environment variables
 # So, profile should be checked in deploy script
 # test server is only one and develop deploy is changed
-if [ "$APPLICATION_NAME" == "cloud-gateway" ]; then
 
-  APPLICATION_JAR_NAME=springboot-deploy.jar
-  APP_JAR_NEW=jinheung-api-gateway-1.0.1.jar
-  DEPLOY_PATH="/home/ec2-user/"
-  BUILD_DIR="/opt/app/gateway/jinheung-api-gateway/build/libs/" # 바뀐 지점
-  BUILD_FILEPATH=$BUILD_DIR$APP_JAR_NEW
-  APPLICATION_JAR=$DEPLOY_PATH$APPLICATION_JAR_NAME
-  STDOUT=/logs/gateway/stdout.log
-  STDERR=/logs/gateway/stderr.log
-  SPRING_OPTIONS="-Dspring.profiles.active=prod -Dserver.port=8081"
-  sudo nohup java -jar $SPRING_OPTIONS $APPLICATION_JAR 1>>$STDOUT 2>> $STDERR &
+
+APPLICATION_JAR_NAME=springboot-deploy.jar
+APP_JAR_NEW=deploy.jar
+DEPLOY_PATH="/home/ec2-user/"
+BUILD_DIR="/opt/app/" # 바뀐 지점
+BUILD_FILEPATH=$BUILD_DIR$APP_JAR_NEW
+APPLICATION_JAR=$DEPLOY_PATH$APPLICATION_JAR_NAME
+STDOUT=/logs/gateway/stdout.log
+STDERR=/logs/gateway/stderr.log
+SPRING_OPTIONS="-Dspring.profiles.active=prod -Dserver.port=8081"
+sudo nohup java -jar $SPRING_OPTIONS $APPLICATION_JAR 1>>$STDOUT 2>> $STDERR &
 #
 #  BUILD_DIR="/opt/app/client/jinhueng-eureka-server/build/libs/"
 #  SPRING_OPTIONS="-Dspring.profiles.active=$ACTIVE_PROFILE -Dserver.port=8082"
