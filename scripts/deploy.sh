@@ -16,7 +16,7 @@ if [ ! -d "/logs/gateway" ]; then
   sudo mkdir /logs/eureka
 fi
 
-sudo chmod -R 777 /opt/yaml/
+sudo chmod -R 777 /opt/app/
 sudo chmod -R 777 /logs
 
 # Code deploy can not inject environment variables
