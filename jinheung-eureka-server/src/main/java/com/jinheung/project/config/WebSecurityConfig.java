@@ -17,11 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${spring.security.user.name}")
-    private String name;
-    @Value("${spring.security.user.password}")
-    private String password;
-
 //    @Override
 //    public void configure(AuthenticationManagerBuilder auth) throws Exception {
 //
@@ -37,6 +32,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf()
             .disable()
+            .authorizeRequests()
+            .antMatchers("/**").permitAll()
+            .mvcMatchers("/**").permitAll()
+//
 //            .formLogin()
 //            .failureForwardUrl("/")
             ;

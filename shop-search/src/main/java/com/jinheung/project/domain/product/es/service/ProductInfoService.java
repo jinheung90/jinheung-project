@@ -37,9 +37,9 @@ public class ProductInfoService {
         Integer stock,
         Integer price,
         Boolean activity) {
+
         ProductInfo productInfo = productInfoRepository.findFirstByProductId(productId);
         if(productInfo == null) {
-
             return productInfoRepository.save(
                 ProductInfo.builder()
                     .productId(productId)

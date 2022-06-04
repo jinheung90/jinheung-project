@@ -30,7 +30,7 @@ public class ProductInfo {
 
     @Field
     private Integer price;
-
+    // localdatetime convert 때문에 deprecated 됬지만 씀
     @Field(type = FieldType.Date, format = DateFormat.custom, name = "created_at", pattern = "uuuu-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
