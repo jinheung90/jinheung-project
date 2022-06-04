@@ -1,11 +1,18 @@
 spring:
+  application:
+    name: eureka-service
+  security:
+    user:
+      name: admin
+      password: admin123
+  freemarker:
+    template-loader-path: classpath:/templates/
+    prefer-file-system-access: false
 server:
-  port: 8061
+  port: 8761
+
 eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
-token:
-  access-token-secret: awey34634561235GWSDGVdsgvdsfhyfasdzehgysurhrt232t6347yetseryesrytasrgdasdrgvbasdfgbaedsfrghaewrgaewrghaerghaerha34qw67yy45
-  refresh-token-expired: 1209600
-  access-token-expired: 1209600
+
