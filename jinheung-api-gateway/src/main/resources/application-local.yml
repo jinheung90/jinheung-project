@@ -42,3 +42,14 @@ routes:
     base-uri: http://localhost:8082
   client-proxy-sockjs:
     base-uri: http://localhost:8084
+cloud:
+  aws:
+    credentials:
+      accessKey:
+      secretKey:
+      instanceProfile: true
+      useDefaultAwsCredentialsChain: true
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
