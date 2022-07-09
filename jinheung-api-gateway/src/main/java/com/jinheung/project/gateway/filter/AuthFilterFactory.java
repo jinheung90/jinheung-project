@@ -90,19 +90,5 @@ public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFa
         return null;
     }
 
-    private Mono<String> checkRefresh(List<String> refreshHeaderVal) {
-        String token = refreshHeaderVal.get(0);
-        return refreshTokenService.findById(refreshHeaderVal.get(0))
-                .map(refreshTokenData -> {
-                    if (refreshTokenData != null) {
-                        if(refreshTokenData.getRefreshToken().equals(token) &&
-                        LocalDateTime.parse(refreshTokenData.getRefreshExpired(),
-                            DateTimeFormatter.ofPattern(RedisConfig.REDIS_TIME_FORMAT)
-                            ).isAfter(LocalDateTime.now())) {
-                            return userResourceService.getTokenById(refreshTokenData.getUserId());
-                        }
-                    }
-                    return Mono.just("");
-                }).block();
-    }
+
 }
