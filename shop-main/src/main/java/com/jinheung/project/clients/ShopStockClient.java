@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @FeignClient(name = "shop-stock", url = "http://localhost:8085")
-public interface ShopStockService {
+public interface ShopStockClient {
 
     @GetMapping(
         value = "/product/ids",

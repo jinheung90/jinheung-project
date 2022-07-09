@@ -30,7 +30,6 @@ public class ProductInfoQuery {
 //            .withSort(SortBuilders.fieldSort("updated_at").order(SortOrder.DESC))
             .withPageable(pageable)
             .build();
-
         return elasticsearchRestTemplate.search(searchQuery, ProductInfo.class, IndexCoordinates.of("products_infos"));
     }
 }

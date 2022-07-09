@@ -20,7 +20,7 @@ import java.util.Optional;
 public class CartService {
     private final CartHasProductRepository cartHasProductRepository;
 
-    public List<CartHasProduct> findALlByCartHasProductByUserIdOrderByCreatedAt(Long userId) {
+    public List<CartHasProduct> findAllCartByHasProductByUserIdOrderByCreatedAt(Long userId) {
         return cartHasProductRepository.findAllByUserIdOrderByCreatedAt(userId);
     }
 

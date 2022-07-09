@@ -6,6 +6,7 @@ import com.jinheung.project.auth.TokenProvider;
 import com.jinheung.project.domain.user.entity.Authority;
 import com.jinheung.project.domain.user.entity.User;
 import com.jinheung.project.domain.user.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 
@@ -27,6 +28,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/token/verify")
+    @ApiOperation("유저 롤 가져오기")
     public ResponseEntity<ParsedUserDataByJwtToken> getUserAuthority(
         @RequestHeader(name = HttpHeaders.AUTHORIZATION) String bearerToken
     ) {
@@ -65,7 +67,4 @@ public class UserController {
             userService.findByUserId(id));
         return ResponseEntity.ok(token);
     }
-
-
-
 }

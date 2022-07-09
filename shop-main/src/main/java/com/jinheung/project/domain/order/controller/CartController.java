@@ -1,7 +1,8 @@
 package com.jinheung.project.domain.order.controller;
 
 import com.jinheung.common.dto.product.ProductInfoDto;
-import com.jinheung.project.clients.ShopStockService;
+import com.jinheung.project.clients.ShopStockClient;
+
 import com.jinheung.project.domain.order.dto.CartRequest;
 import com.jinheung.project.domain.order.dto.CartResponse;
 import com.jinheung.project.domain.order.jpa.entity.CartHasProduct;
@@ -22,7 +23,7 @@ import static com.jinheung.common.consts.AuthHeaderNames.USER_ID;
 @RequestMapping
 @Slf4j
 public class CartController {
-    private final ShopStockService shopStockService;
+    private final ShopStockClient shopStockClient;
     private final CartService cartService;
 
     @GetMapping
@@ -31,15 +32,14 @@ public class CartController {
     ) {
 
         List<CartHasProduct> cartHasProducts =
-            cartService.findALlByCartHasProductByUserIdOrderByCreatedAt(userId);
+            cartService.findAllCartByHasProductByUserIdOrderByCreatedAt(userId);
         List<ProductInfoDto> productInfoDtoList;
         if(cartHasProducts.isEmpty()) {
             productInfoDtoList = new ArrayList<>();
         } else {
-            productInfoDtoList = shopStockService.getProductsByIds(
+            productInfoDtoList = shopStockClient.getProductsByIds(
                 cartHasProducts.stream().map(CartHasProduct::getProductId)
-                    .collect(Collectors.toList())
-            ).getBody();
+                    .collect(Collectors.toList())).getBody();
         }
         return ResponseEntity.ok(new CartResponse(productInfoDtoList));
     }
