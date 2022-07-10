@@ -31,9 +31,6 @@ public class PaymentService {
 
     private IamportClient iamportClient;
 
-
-
-
     @PostConstruct
     public void initImportClient() {
         iamportClient = new IamportClient(restKey, secretKey);
