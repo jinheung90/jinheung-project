@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @AllArgsConstructor
@@ -45,5 +46,11 @@ public class ProductInfo {
 
     public void reduceProduct(int reduce) {
         stock -= reduce;
+    }
+
+    public void update(String name, String detail, Boolean activity) {
+        this.name = Objects.requireNonNullElse(name, this.name);
+        this.detail = Objects.requireNonNullElse(detail, this.detail);
+        this.activity = Objects.requireNonNullElse(activity, this.activity);
     }
 }

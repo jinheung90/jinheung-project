@@ -15,6 +15,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 import static com.jinheung.common.event.MsaEvents.KAFKA_TOPIC_SEARCH_ASYNC_PRODUCT_INFO;
 
 @Component
@@ -29,22 +31,23 @@ public class ProductInfoListener {
     public void reduceStockProductCount(@Payload String data) {
         OrderVerifyPayload orderVerifyPayload =
             new Gson().fromJson(data, OrderVerifyPayload.class);
-//        String message =
-//            productInfoService.reduceProductStock(
-//                orderVerifyPayload.getProductId(),
-//                orderVerifyPayload.getReduceCount(),
-//                orderVerifyPayload.getPrice());
-//        if(message.equals("success")) {
-//            kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_SEARCH_STOCK_REDUCE,
-//               new Gson().toJson(new IdMessagePayload(
-//                   orderVerifyPayload.getProductId(),
-//                   orderVerifyPayload.getReduceCount().toString())));
-//        } else {
-//            kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_CANCEL_PAYMENT,
-//                new Gson().toJson(new IdMessagePayload(
-//                    orderVerifyPayload.getOrderId(),
-//                        orderVerifyPayload.getReduceCount().toString())));
-//        }
+        String message =
+            productInfoService.reduceProductStock(
+                orderVerifyPayload.getOrderHasProductDtoList());
+        if(message.equals("success")) {
+            kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_SEARCH_STOCK_REDUCE,
+               new Gson().toJson(
+                   orderVerifyPayload.getOrderHasProductDtoList().stream()
+                       .map(p -> new IdMessagePayload(p.getProductId(), p.getQuantity().toString()))
+                       .collect(Collectors.toList())
+               ));
+        } else {
+            kafkaTemplate.send(MsaEvents.KAFKA_TOPIC_CANCEL_PAYMENT,
+                new Gson().toJson(
+                    orderVerifyPayload.getOrderHasProductDtoList().stream()
+                        .map(p -> new IdMessagePayload(p.getProductId(), p.getQuantity().toString()))
+                        .collect(Collectors.toList())
+                ));
+        }
     }
-
 }
