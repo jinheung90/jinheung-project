@@ -63,8 +63,7 @@ shop-stock 서비스에서 상품 정보 변경 시 es에 저장 (카프카 연�
     shop search 8086
     기능 : es를 이용한 제품 검색 
 ```
-
-#### api 목록
-| httpMethod | path | description
-|:-----------|:---|:---|
-| GET        | /user/token/verify | 유저 정보 파싱해서 가져오기 
+## 설계도 
+![](설계도.png)
+### 결제
+![](결제.png)
