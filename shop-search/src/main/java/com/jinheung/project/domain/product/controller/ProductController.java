@@ -25,6 +25,4 @@ public class ProductController {
     ) {
         return ResponseEntity.ok(productInfoService.searchProduct(query, page, size));
     }
-
-
 }

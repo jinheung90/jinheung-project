@@ -20,9 +20,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductInfoService {
     private final ProductInfoRepository productInfoRepository;
-//    private final KafkaTemplate<String, ClientEventTopics>
-
-
     @Transactional
     public String reduceProductStock(Set<OrderHasProductDto> orderHasProductDtoSet) {
         HashMap<Long, ProductInfo> productInfoMap = new HashMap<>();
@@ -33,27 +30,11 @@ public class ProductInfoService {
         orderHasProductDtoSet.forEach(
             orderHasProductDto -> {
                 ProductInfo productInfo = productInfoMap.get(orderHasProductDto.getProductId());
-//                if(productInfo == null) {
-//                    String.format()
-//                }
-//
-//                if()
             }
         );
 
         return null;
 
-
-//
-//        if(!price.equals(productInfo.getPrice())) {
-//            return "not match price";
-//        }
-//        boolean updateStock = productInfo.reduceStock(reduceCount);
-//        if(!updateStock) {
-//            return "stock is empty";
-//        }
-//        productInfoRepository.save(productInfo);
-//        return "success";
     }
     public ProductInfo saveProductInfo(
         Long productId,
