@@ -12,7 +12,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserHasProductLikeDataRepository {
 
-    private final RedisTemplate<String, Long> redisTemplate;
+    private final RedisTemplate redisTemplate;
     private static final String REDIS_KEY = "USER_HAS_PRODUCT_LIKE:";
 
     public Set<Long> getByUserId(Long userId) {

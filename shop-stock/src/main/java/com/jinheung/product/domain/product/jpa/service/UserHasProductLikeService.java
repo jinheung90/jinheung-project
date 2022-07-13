@@ -10,7 +10,6 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class UserHasProductLikeService {
-
     private final UserHasProductLikeRepository userHasProductLikeRepository;
     public void saveRandom() {
         for (long i = 1; i < 20000; i++) {

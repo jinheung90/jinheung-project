@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Table(name = "user_Has_product_likes", uniqueConstraints = {
-    @UniqueConstraint(name = "UniqueUserIdAndProductId", columnNames = {"userId", "productId"})})
+    @UniqueConstraint(name = "UniqueUserIdAndProductId", columnNames = {"user_id", "product_id"})})
 @Entity
 @Setter
 public class UserHasProductLike {

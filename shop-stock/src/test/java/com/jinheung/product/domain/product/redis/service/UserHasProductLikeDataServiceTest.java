@@ -17,15 +17,18 @@ import java.time.LocalDateTime;
 @Tag("integration")
 @ActiveProfiles("local")
 @TestMethodOrder(value = MethodOrderer.DisplayName.class)
-public class UserHasProductLikeServiceTest {
+
+class UserHasProductLikeDataServiceTest {
     @Autowired
-    private UserHasProductLikeService userHasProductLikeService;
+    private UserHasProductLikeDataService userHasProductLikeDataService;
 
     @Test
     @DisplayName("sec check")
-    public void test1 () {
+    void test1 () {
         int start = LocalDateTime.now().getNano();
-        userHasProductLikeService.saveMultipleLike();
+        System.out.println(start);
+        userHasProductLikeDataService.saveMultipleLike();
         int end = LocalDateTime.now().getNano();
+        System.out.println(end - start);
     }
 }

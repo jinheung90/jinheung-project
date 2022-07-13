@@ -8,7 +8,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-public class UserHasProductLikeService {
+public class UserHasProductLikeDataService {
     private final UserHasProductLikeDataRepository userHasProductLikeDataRepository;
 
     public void saveMultipleLike() {
